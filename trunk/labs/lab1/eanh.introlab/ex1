@@ -1,0 +1,14 @@
+Ean Hernandez cspp51081 lab1 10/06/2010
+
+1.4 The myfile is simply a file containing the text I put in it.
+The soft_link is a symbolic link, and is a pointer to myfile:wq.  It is
+smaller than the other files, because it merely points to the filename
+of myfile.  The hard_link file is the same size as myfile because it
+points to the same inode that myfile points to, and is literally another 
+name for the data that myfile points to. 
+
+
+
+
+
+

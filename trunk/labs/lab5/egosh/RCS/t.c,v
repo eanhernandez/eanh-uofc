@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	2010.11.05.01.41.06;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#define _GNU_SOURCE
+#include <stdio.h>
+
+
+int main(int argc, char* argv[])
+{
+   char c;
+   c= 'A';
+   printf("%c\n",c);
+
+   char c1[];
+   c1 = "asdf";
+   printf("%s\n",c1);
+
+   char c2[25];
+   c2[0]='a';
+   c2[1]='b';
+   c2[2]='c';
+   c2[3]=0;
+
+   printf ("%s\n",c2);
+/*   char*c3[25];
+   c3[0] = c2[0];
+   c3[1] = c2[1];
+   c3[2] = c2[2];
+
+   printf ("%c\n",*c3[2]);
+*/
+}
+@

@@ -1,0 +1,375 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+
+  
+  <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+
+
+  
+  <meta content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]" name="GENERATOR">
+
+  
+  <title>Unix Systems Programming: Lab 9</title>
+</head>
+
+
+<body>
+
+
+<h1>Unix Systems Programming: Lab 9</h1>
+
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#990000"><b>Wednesday, December 8, 2010
+@5:00 pm</b></font>.<br>
+
+
+<hr width="100%"> <br>
+
+
+<h3>Purpose and Rationale</h3>
+
+
+<p> The purpose of this lab is to allow students to become
+comfortable
+with
+Multithreaded Programming using the POSIX Pthreads API. </p>
+
+
+<h3>Primary Resouces:</h3>
+
+
+<p><a href="../LabFAQ/FAQ.html#lab9">FAQ</a>
+(submission instructions and other useful stuff)<br>
+
+
+There are several references for this labs
+</p>
+
+
+<ul>
+
+
+  <li>Lecture 9 is the primary reference for this lab</li>
+
+
+  <li>Butenhof, <em>Programming with POSIX Threads</em>,
+Chapters 1-5
+and 8 </li>
+
+
+  <li>Molay, Understanding Unix/Linux Programming, Chapter 14<br>
+
+
+Provides an example of a web server which is implemented using threads.</li>
+
+
+  <li>Course <a href="../LabFAQ/FAQ.html#lab9">FAQ</a>
+page has
+several links to online resources and examples of using threads.</li>
+
+
+</ul>
+
+
+If possible, you should ssh into the cluster to perform all lab
+activities.
+<p></p>
+
+
+<h3>Point Value</h3>
+
+
+<p> Lab 9 is worth 25 points, five of those points are for
+correct
+submission.
+</p>
+
+
+<h2>Lab 9 : Pthreads</h2>
+
+
+<h3>Project</h3>
+
+
+<p> Your code for <a href="lab8.Sockets.html">Lab 8</a>
+was designed to support multiple clients, but one client at
+a
+time. You kept clients waiting until your server finished handling the
+current client. In this lab you will extend your spell-checker to
+support multiple clients at the same time. </p>
+
+
+<ul>
+
+
+  <li>Your server will set-up the socket and wait for clients</li>
+
+
+  <li>When a client is recieved your server will create a thread
+to
+handle the client's request.</li>
+
+
+  <li>The server will continue to wait for new client requests.</li>
+
+
+  <li>The thread will handle its client's request then exit.</li>
+
+
+</ul>
+
+
+Your server should be able to support multiple clients simultaneously.
+We will test
+that it correctly handle up to three clients simultaneously.
+<p></p>
+
+
+<p>
+Unless you use synchronization mechanisms (such as semaphores) you must
+take care not
+to have shared variables among your threads which require they change
+the value of the
+variable.
+</p>
+
+
+<h3>Makefile</h3>
+
+
+<p> One complication with using threads is accesssing the correct
+thread library. You will
+find a same <code>Makefile</code> in the Butenhof <a href="butenhof.tgz">example</a>. We
+will not be using the default pthread library on our Linux cluster, so
+we will need
+to specify the location of the header files and libraries, when
+compiling our code for the server program. You'll need the following
+lines in your Makefile:<br>
+
+
+<br>
+
+
+<code> LDFLAGS=-static -Wl,-rpath=/opt/glibc/glibc-2.2.2/lib </code><br>
+
+
+<code> INCLDIR=-I/opt/glibc/glibc-2.2.2/include </code><br>
+
+
+<code> LIBDIR=-L/opt/glibc/glibc-2.2.2/lib</code><br>
+
+
+<code> LIBS=-lpthread</code><br>
+
+
+<br>
+
+
+<code>
+.c:<br>
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${CC} ${LDFLAGS} -o
+$@ $@.c ${LIBDIR}
+${INCLDIR} ${LIBS}
+</code><br>
+
+
+<br>
+
+
+What you are including is as follows:
+</p>
+
+
+<ol>
+
+
+  <li> <code>LDFLAGS</code> :
+&nbsp;&nbsp;Specify you want to use the
+static library, and places the directory the thread library we are
+using on the linker's path. </li>
+
+
+  <li> <code>INCLDIR</code> :
+&nbsp;&nbsp;This is the directory where
+the header files for the threads library are located. </li>
+
+
+  <li> <code>LIBDIR</code> :
+&nbsp;&nbsp;This is the directory where
+the threads library is located.</li>
+
+
+  <li> <code>LIBS</code> : &nbsp;&nbsp;This
+is the threads library we
+are going to use </li>
+
+
+  <li> <code>.c:</code> : &nbsp;&nbsp; This
+is a suffixing rule which
+specifies are to build your object code from a C file.</li>
+
+
+</ol>
+
+
+<p></p>
+
+
+<h3>Deliverables</h3>
+
+
+<p> Follow the procedure <em>carefully</em>, correct
+delivery of your
+work is worth 5 points. Follow the 4 steps below. </p>
+
+
+<ol>
+
+
+  <li>Create a directory:<br>
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>username</em><font face="Courier New, Courier, mono">.lab9</font></li>
+
+
+  <li> This directory will contain:
+    
+    <ul>
+
+
+      <li>All C files needed to build your client and server.<br>
+
+
+Your client can be exactly the same as you used in Lab 8.</li>
+
+
+      <li>A file named <code>Makefile</code>, which
+will build both
+your client and server, when <code>make</code> is entered
+on the
+command line. In addition, your make file must contain a target <em>clean</em>
+which will remove all executables created by <em>make</em>
+when <code>make
+clean</code> is entered on the command line.</li>
+
+
+      <li>There should be no object files or executable files in
+your
+submission. Please make sure that all back-up files generated by emacs
+(*~) are removed.</li>
+
+
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>When you are finished with your assignment you will create
+a
+compressed archive file using <font face="Courier New, Courier, mono">tar</font>
+(this utility stores your directory as a single file, then compresses
+its size.)<br>
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face="Courier New, Courier, mono">tar -czvf </font>&nbsp;
+    <em>username</em><font face="Courier New, Courier, mono">.lab9.tgz</font>
+&nbsp;&nbsp;<em>username</em><font face="Courier New, Courier, mono">.lab9</font> <br>
+
+
+  </li>
+
+
+  <li>You will email your file to our grader as an
+attachment. I will send an aknowledgement that your assignment has been
+received.<br>
+
+
+    <br>
+
+
+  </li>
+
+
+  
+  <table border="1" width="75%">
+
+
+    <tbody>
+
+
+      <tr>
+
+
+        <td>To</td>
+
+
+        <td>&nbsp;mark@cs.uchicago.edu</td>
+
+
+      </tr>
+
+
+      <tr>
+
+
+        <td>Attachment</td>
+
+
+        <td> &nbsp;<em>username</em><font face="Courier New, Courier, mono">.lab9.tgz</font></td>
+
+
+      </tr>
+
+
+      <tr>
+
+
+        <td>Subject</td>
+
+
+        <td>&nbsp;CSPP51081</td>
+
+
+      </tr>
+
+
+    
+    </tbody>
+  
+  </table>
+
+
+</ol>
+
+
+<!-- End of Deliverables, and Preamble to Lab 9 -->
+<hr width="100%"><!--
+<address> </address>
+<address><tt i="" int="" &nbsp;&nbsp;&nbsp;&nbs=""></tt> <a
+href="mailto:kaharris@cs.uchicago.edu">Kenneth Harris</a></address>
+--><br>
+
+
+<br>
+
+
+<br>
+
+
+<br>
+
+
+<br>
+
+
+<br>
+
+
+</body>
+</html>

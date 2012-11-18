@@ -1,0 +1,38 @@
+Script started on Mon Jun 17 22:36:49 CDT 2002
+hangao@gawaine:CSPP51081% finger
+Login     Name      Tty  Idle  Login Time   Office     Office Phone
+hangao    Han Gao    pt        Jun 10 21:55 (:0.0)
+hangao@gawaine:CSPP51081% who am i
+gawaine.cs.uchicago.edu!hangao   pts/0    Jun 10 21:55 (:0.0)
+hangao@gawaine:CSPP51081% jobs
+[1]  + Running                       CXterm
+[3]  - Running                       netscape
+[4]    Running                       gv lecture.2.ps
+[5]    Running                       emacs index.html
+[6]    Running                       emacs lab1.html
+[7]    Running                       emacs anda_lab1.log
+[8]    Running                       emacs log.html
+hangao@gawaine:CSPP51081% ps
+  PID TTY STAT TIME COMMAND
+  717  ?  S    0:01 -csh 
+  745  ?  S    6:32 /opt/cxterm/default/bin/cxterm -name cxterm -fh hanzigb16fs
+  750  p1 S    0:00 -csh 
+ 4700  ?  S    0:00 gv lecture.2.ps 
+10187  p1 S    0:00 pine 
+10922  ?  S    0:22 gs -sDEVICE=x11 -dNOPAUSE -dQUIET -dSAFER /home/hangao/html/
+11153  ?  S    0:03 emacs index.html 
+11286  ?  S    0:00 emacs lab1.html 
+11303  ?  S    0:00 emacs anda_lab1.log 
+11308  ?  S    0:00 emacs log.html 
+11313  ?  R    0:00 ps 
+17189  ?  S    0:00 /bin/sh /usr/local/bin/netscape 
+17190  ?  S    2:12 /opt/netscape/netscape-communicator-default/netscape 
+17191  ?  S    0:00 (dns helper)
+hangao@gawaine:CSPP51081% finger hangao
+Login: hangao                           Name: Han Gao
+Directory: /home/hangao                 Shell: /usr/bin/tcsh
+On since Mon Jun 10 21:55 (CDT) on pts/0 from :0.0
+Last login Mon Jun 17 11:20 (CDT) on pts/1 from vanadium.mcs.anl.gov
+Mail last read Mon Jun 17 22:25 2002 (CDT)
+No Plan.
+Script done on Mon Jun 17 22:40:46 CDT 2002

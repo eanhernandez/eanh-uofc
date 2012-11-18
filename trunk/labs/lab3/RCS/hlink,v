@@ -1,0 +1,71 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2010.10.17.03.13.20;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
+int main(int argc, char* args[])
+{
+   struct stat s;
+   stat(args[1],&s);
+   
+   printf("file: '%s'\n", args[1]);
+   printf("size: %ld           ", (long) s.st_size);
+   printf("blocks: %lld       ", (long long) s.st_blocks);
+   printf("io block: %ld      ", (long) s.st_blksize);
+
+   printf("filetype: ");
+/*   switch (s.st_mode & S_IFMT) {
+      case S_IFBLK:  printf("block device\n");            break;
+      case S_IFCHR:  printf("character device\n");        break;
+      case S_IFDIR:  printf("directory\n");               break;
+      case S_IFIFO:  printf("FIFO/pipe\n");               break;
+      case S_IFLNK:  printf("symlink\n");                 break;
+      case S_IFREG:  printf("regular file\n");            break;
+      case S_IFSOCK: printf("socket\n");                  break;
+      default:       printf("unknown?\n");                break;
+      }                                                                                             }
+*/
+   printf("device: ??        ");
+   printf("I-node: %ld      ", (long) s.st_ino);
+   printf("links: %ld\n", (long) s.st_nlink);
+   printf("access: %lo     ", (unsigned long) s.st_mode);
+
+   struct passwd* userInfo;
+   userInfo = getpwuid (s.st_uid);
+
+   struct group * groupInfo;   
+   groupInfo = getgrgid (s.st_gid);
+
+   printf("uid: (%d   /   %s)",(int) s.st_uid, userInfo->pw_name);
+   printf("    gid: (%ld  /  %s)", (long) s.st_gid,groupInfo->gr_name);
+   printf("\naccess:       %s", ctime(&s.st_ctime));
+   printf("modify:         %s", ctime(&s.st_atime));
+   printf("change:   %s", ctime(&s.st_mtime));
+}
+              
+@

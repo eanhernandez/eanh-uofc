@@ -1,0 +1,930 @@
+<html>
+<head>
+	<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+	<meta content="J. Mark Shacklette" name="Author">
+	<meta content="Mozilla/4.79 [en] (X11; U; Linux 2.4.18-3 i686) [Netscape]" name="GENERATOR">
+	<title>University of Chicago CSPP 51081 Course Syllabus</title>
+</head>
+
+<body alink="#ff0000" bgcolor="#bfbfbf" link="#0000ff" text="#000000" vlink="#ff00ff">
+
+	<center>
+	<img src="cs-logo.gif" height="137" width="316"><br>
+	<br>
+	<b>The University of Chicago</b><br>
+	<b>Department of Computer Science</b><br>
+	<br>
+	<b>CSPP 51081 Course Syllabus</b><br>
+	<b>Fall 2010</b><br>
+	<br>
+	<b><font size="+1">Unix Systems Programming</font></b><br>
+	</center>
+
+<table cellspacing="10" width="75%">
+	<tr>
+		<td colspan=2><hr></td>
+	</tr>
+	<tr>
+		<td colspan=2>
+		<table cellspacing=2>
+		<tr>
+		<td><a href="#staff">Teaching Staff</a></td>
+		<td><a href="index.html">Course Home</a></td>
+		<td><a href="resources/">Texts and Resources</a></td>
+		<td><a href="#info">General Course Information</a></td>
+		<td><a href="#schedule">Course Schedule</a></td>
+		<td><a href="#grading">Grading Information</a></td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2><a name="staff"><hr></td>
+	</tr>
+	<tr>
+		<td colspan=2><u><b>Teaching Staff</b></u></td>
+	</tr>
+	<tr>
+		<td><b>Instructor:</b></td>
+		<td><b>Mark Shacklette</b></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><b>Email:</b><br>
+		&nbsp;&nbsp;mark@cs.uchicago.edu (read hourly or so)<br>
+		&nbsp;&nbsp;mshack@post.harvard.edu (read hourly or so)<br>
+		<br>
+		<b>NOTE: ALL non-confidential email should be addressed to the <A HREF="mailto:cspp51081@mailman.cs.uchicago.edu">email list</A></b></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><b>Office:</b><br>
+		&nbsp;&nbsp;Ryerson 175A</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><b>Office Hours:</b><br>
+		&nbsp;&nbsp;Wednesday, 3:30-4:30 pm (by appointment only)<br>
+		&nbsp;&nbsp;Wednesday, 4:30-5:15 pm (drop in)</td>
+	</tr>
+	<tr>
+		<td>Lead TA:</td>
+		<td>Brian Martin<br></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Email: bsm@cs.uchicago.edu</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Office Hours:<BR>
+		Downtown (by appointment): <BR>
+		&nbsp;&nbsp;Monday-Friday, 12:00-1:00pm<BR>
+		Campus: <BR>
+		&nbsp;&nbsp;Sunday, 6:00pm-7:00pm</td>
+	</tr>
+	<tr>
+		<td>Associate TA:</td>
+		<td>Soner Balkir</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Email: soner@cs.uchicago.edu</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Office Hours:<BR>
+		&nbsp;&nbsp;10/11 - 3:00-5:00pm<BR>
+		&nbsp;&nbsp;10/18 - 3:00-5:00pm<BR>
+		&nbsp;&nbsp;11/1 - 3:00-5:00pm</td>
+	</tr>
+	<tr>
+		<td>Associate TA:</td>
+		<td>Virgil Gheorghiu</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Email: virgilg@cs.uchicago.edu</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Office Hours:<BR>
+		&nbsp;&nbsp;11/10 - 3:30pm-5:30pm<BR>
+		&nbsp;&nbsp;11/17 - 3:30pm-5:30pm<BR>
+		&nbsp;&nbsp;12/1 - 3:30pm-5:30pm</td>
+	</tr>
+	<tr>
+		<td valign=top colspan=2><a name="info"><hr></td>
+	</tr>
+	<tr>
+		<td valign=top colspan=2><u><b>General Course Information</b></u></td>
+	</tr>
+	<tr>
+		<td valign=top>Prerequisites:</td>
+		<td>
+		<ol>
+			<li>Knowledge of C Programing is <i>assumed and required</i>. C will not be taught as part of this course.</li>
+			
+			<li>All students are required to have taken the CSPP Unix Bootcamp or the MacLab Unix Course prior to the first day of class (or have the requirement waived). Those who have not completed this requirement will need approval of the instructor, which will most likely not be granted unless you can demonstrate substantial experience using Unix.</li>
+			
+			<li>Basic familiarity with a Unix source code editor (vi, emacs, nedit, pico, gedit, etc.) will be necessary.</li>
+		</ol>
+		</td>
+	</tr>
+	<tr>
+		<td valign=top>Description:</td>
+		<td>CSPP 51081 is systems programming course which explores topics in systems programming on Unix. Topics to be covered in detail will include:<BR>
+		<ul>
+			<li>Unix History and Philosophy</li>
+			<li>Awk Programming</li>
+			<li>Unix File I/O</li>
+			<li>Static and Shared Libraries</li>
+			<li>Processes and Signals (fork, exec, etc.)</li>
+			<li>Pipes (unnamed and FIFOs)</li>
+			<li>System V IPC (semaphores, message queues, shared memory)</li>
+			<li>Berkeley Socket programming</li>
+			<li>Sun RPC</li>
+			<li>POSIX pThread programming</li>
+		</ul>
+		<br>
+		Various tools used in developing software in C on Unix will be covered, including gcc, gdb, ddd, gprof, cvs, etc.<br>
+		<br>
+		Because this is a programming course, students will be expected to know the C programming language upon course entry.<br>
+		</td>
+	</tr>
+	<tr>
+		<td valign=top>Objectives:</td>
+		<td>
+			Upon completion of this course the student will:<br>
+			<ul>
+				<li>Understand advanced UNIX operating system concepts and terminology.</li>
+				<li>Develop a command of the Unix Shell environment, including advanced Unix commands and utilities.</li>
+				<li>Learn basic AWK programming.</li>
+				<li>Become acquainted with the basic tools used to develop software in C on the Unix platform.</li>
+				<li>Become familiar with basic IPC issues and techniques in Unix programming.</li>
+				<li>Become familiar with socket programming using the Berkeley socket API.</li>
+				<li>Become familiar with both the theory and practice of making Remote Procedure Calls in Unix.</li>
+				<li>Become familiar with multithreaded programming in C using POSIX pThreads on Unix.</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td valign=top>Academic Integrity:</td>
+		<td>Students are expected to have read and understood the University's policy on Academic Integrity. This policy is detailed in the Student Manual of University Policies and Regulations, available online at <a href="http://www.uchicago.edu/docs/studentmanual/">http://www.uchicago.edu/docs/studentmanual/</a></td>
+	</tr>
+	<tr>
+		<td valign=top>Instruction Method:</td>
+		<td>Methods include lecture and homework assignments.</td>
+	</tr>
+	<tr>
+		<td valign=top>Attendance:</td>
+		<td>No formal attendance taken. There may be information presented in class that is not in the texts. You will be responsible for all information discussed in class and assigned in the required readings.</td>
+	</tr>
+	<tr>
+		<td valign=top>Make-up Work:</td>
+		<td>If you miss an exam or quiz, you will need to speak with the
+instructor <b>ASAP</b>. &nbsp;Prepare for unhappiness.<br></td>
+	</tr>
+	<tr>
+		<td valign=top>Class Participation:</td>
+		<td>Students are expected to read the assigned texts before class in order to be able to full participate in the discussions.</td>
+	</tr>
+	<tr>
+		<td valign=top><A name="grading">Grading:</td>
+		<td>Current students can find their grades and any returned commented work <A HREF="grades/">here</A>.<BR>
+		<BR>Assigned work will be graded as follows:<br>
+			<table border="2" cellpadding="5" cellspacing="5">
+    			<tr>
+      				<td>8 Labs (25 points each)</td>
+      				<td>200 pts</td>
+			</tr>
+			<tr>
+				<td>Mid-Term Exam</td>
+				<td>350 pts</td>
+			</tr>
+			<tr>
+				<td>Final Exam (or option below)</td>
+				<td>450 pts</td>
+			</tr>
+			<tr>
+				<td>Total</td>
+				<td>1000 pts</td>
+			</tr>
+			</table>
+		<br>
+<font color="#ff0000">NB: &nbsp;The end of the quarter is the time at which the final grade you have earned through your work in the quarter is recorded with the registrar. &nbsp;It is not the time at which you realize that your lackluster effort has not winged the grade you had fancied, and the point at which you begin negotiations for extra credit opportunities. &nbsp;There will be no extra credit (outside of a few optional questions on an exam) offered in this course, either at the beginning or at the end. &nbsp;If you are disatisfied with the grade you earned at the end of the quarter, <I>Your only options will be to retake the course the next time it is offered, or not</I>.<br>
+<br>
+	</td>
+	</tr>
+	<tr>
+	<td valign=top>Alternative to Final:</td>
+	<td>
+Students may, <i><font color="#cc0000">with the prior permission of the instructor</font></i>, opt to do either of the following&nbsp; <font color="#cc0000">in lieu of the final exam</font>: <br>
+		<ol>
+			<li>Write a 20-30 page page <i>research</i> >pape, double spaced with 1 inch margins, including bibliography and footnotes, detailing the internal activities and interfaces of some substantial portion of the Linux kernel (process management, memory management, virtual memory, file system, scheduling, etc.)  The quality of the paper should be targeted as publishable.&nbsp; You will need to demonstrate full command of the topic in detail through both the paper as well as possible oral review of its content with the instructor.&nbsp; The approval process requires a 2 page detailed research topic statement including a proposed outline of contents, resources, etc. Plagarism, in any form, will result in an F for the course.</li>
+
+			<li>Define a non-trivial systems programming project and implement it.&nbsp; The approval process requires a 2 page statement of the project, detailing the project scope, deliverable, and tools to be used.&nbsp; Delivery of the project involves a makefile that builds the software and supporting libraries, etc., and will be open to possible oral review with the instructor.&nbsp; If you choose this option, you may tailor the labs to support the ongoing development of the project (where relevant) and with the approval of the instructor or TA.&nbsp; Your project should include multiple topics of the course, for instance, multiple threads, thread concurrency controls, sockets, IPC, etc.&nbsp; An example of a non-trivial programming project might be a multithreaded web server written in C that supports multiple simultaneous clients and basic HTML delivery and implements some subset of the HTTP protocol.&nbsp; Plagarism, in any form, will result in an F for the course and reporting to the program director.</li>
+		</ol>
+		NOTES:
+		<ol>
+			<li>You <i>must</i> obtain the instructor's approval, via email, for either of these options by 11:59pm, November 10th</font>.&nbsp; will be no exceptions to this.</li>
+			<li>Plagarism in any form will result in a final grade of 'F' for the course and notification of the program director for disciplinary action.</li>
+			<li>Both options produce the same total point availability as the final exam:&nbsp; 450 points out of 1000.</li>
+			<li>You may not work together on either of these options. Both options must be completed on an individual basis.</li>
+		</ol></td>
+	</tr>
+	<tr>
+		<td valign=top>Delivery Process:</td>
+		<td>
+		The due dates for labs are on the syllabus calendar in <font color="#cc0000">RED.</font>&nbsp; All labs are required.<br>
+		<br>
+		Lab assignments, when completed, should be tarballed up into a single gzipped tarball and sent to the graders directly (NOT to the instructor).&nbsp; The graders will post instructions on submitting labs.<br>
+		<br>
+		For each part of the lab assignment there are detailed descriptions of what you should turn in. You should include ALL supporting files (source files, data files, etc.) as attachments to the submission email (a single message).&nbsp; Please send only UNIX-readable (text) files (that is,<font color="#cc0000"> no MS Word documents!!!</font>).&nbsp; Word documents will be considered a personal affront to the instructor and will result in ignominy and public humiliation.&nbsp; All work is <i>evaluated and graded</i> on the LINUX CLUSTER (not solaris, hpux, irix, aix, etc.)<br>
+		<br>
+		<font color="#cc0000">FAILURE TO PROVIDE AND DELIVER TO THE GRADERS ALL SCRIPTS, ALL COMMANDS, AND ALL SUPPORTING FILES, TEXT OR SOURCE, YOU USED TO DELIVER AND PRODUCE THE SOLUTION WILL RESULT IN A LOSS OF POINTS.&nbsp;<b> IF THE GRADERS, WORKING SOLELY ON THE LINUX CLUSTER, CANNOT REPRODUCE YOUR SOLUTION OR ANY PART OF YOUR SOLUTION FROM THE SET OF INFORMATION YOU PROVIDE, YOU WILL LOSE PARTIAL OR FULL CREDIT.</b></font><br>
+		<br>
+		All assignments are due as specified on this syllabus and supporting lab pages.&nbsp; Students who turn in work late, regardless of the reason, will receive 2 points off from the first day the assignment is due (calculated as the first 24 hour period following the due date and time), and continuing for 10 days.&nbsp; Assignments turned in more than 10 days late from the original due date will not be accepted and the student will receive a 0 on the assignment.&nbsp; The ONLY exception to this penalty will be a doctor's approved note of severe illness requiring overnight hospitilization, etc.&nbsp; All late deliveries, regardless of cause, including, but not limited to acts of God, war, riot, embargoes, acts of civil or military authority, terrorism, fire, flood, tsumami, earthquakes, hurricanes, typhoons, tropical storms or other natural disasters, fiber cuts, strikes, shortages in transportation, facilities, fuel, energy, labor or materials, failure of the telecommunications or information services infrastructure, hacking, SPAM, or any failure of a computer, server or software, including Y2K errors or omissions, the common cold, the flu, asthema, stomach flu, work, work travel, family, childcare, golf, vacation, and other life-related exigencies and necessities, while unfortunate, will still incur the penalty.&nbsp; It is assumed that you will have plenty of time to work on each assignment, and that an individual penalty or two will have little overall effect on a student's final grade, unless lateness is chronic or other grades are poor, in which case, of course, the penalty will be more cumbersome.&nbsp; If you are late with a delivery and therefore receive a penalty (which you will if you are late for any reason) and it's an isolated incident and the rest of your work is excellent, the penalty should be innocuous.<br>
+		<br>
+		The instructor reserves the right to alter the course contents, dates, times or percentage of credit based on time allowed and class progress through the course material. The instructor also reserves the right to curve grades if he deems it in the best interest of the majority of students.<br>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2><a name="schedule"><hr></td>
+	</tr>
+	<tr>
+		<td colspan=2><u><b>Course Schedule</b></u></td>
+	</tr>
+	<tr>
+		<td colspan=2>The Instructor reserves the right to alter the schedule as class progress dictates.<br>
+		<br>
+
+<table nosave="" border="1" width="300">
+    <tr nosave="">
+      <td nosave=""><b>Abbreviation</b></td>
+      <td><b>Text</b></td>
+    </tr>
+    <tr nosave="">
+      <td>BLP</td>
+      <td nosave="">Beginning Linux Programming&nbsp;</td>
+    </tr>
+    <tr>
+      <td>UNP1</td>
+      <td>UNIX Network Programming, Volume 1</td>
+    </tr>
+    <tr>
+      <td>EAP</td>
+      <td>Effective Awk Programming</td>
+    </tr>
+    <tr>
+      <td>PPT</td>
+      <td>Programming with POSIX Threads (<font color="#cc0000">optional</font>
+)</td>
+    </tr>
+    <tr>
+      <td>APUE</td>
+      <td>Advanced Programming in the UNIX Environment</td>
+    </tr>
+    <tr>
+      <td valign="top">USP</td>
+      <td valign="top">UNIX Systems Programming (<font color="#cc0000">optional</font>
+)</td>
+    </tr>
+    <tr>
+      <td>UULP</td>
+      <td>Understanding Unix/Linux Programming (<font color="#cc0000">optional</font>
+)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>NOTE:&nbsp; Numbers besides the references are <i>chapter numbers</i>.&nbsp;
+Odd numbers like APUE 14.1-14.5 mean sections 1 through 5 of chapter 14
+of APUE. <br>
+
+<table border="2" cellpadding="2">
+    <tr>
+      <td style="width: 60px;" valign="top">Class 1</td>
+      <td style="width: 104px;" valign="top"><font color="#330033">September 29<br>
+      </font></td>
+      <td style="width: 219px;" valign="top">Introduction &amp; syllabus review<br>
+Historical Introduction to UNIX<br>
+&nbsp;</td>
+      <td valign="top">BLP, 1,2,4&nbsp; <br>
+[UULP 1]<br>
+EAP, 1-8 <br>
+      <br>
+      <p><a href="labs/intro/">Intro LAB</a>
+      </p>
+      <p><br>
+      </p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td style="width: 60px;" valign="top">Class 2</td>
+      <td style="width: 104px;" valign="top">October 6<br>
+      </td>
+      <td style="width: 219px;" valign="top">Introduction to Awk Programming<br>
+      <br>
+Tools and Compilation:
+      <p>C compiler, compiling &amp; linking <br>
+Creating and using static libraries Creating and using shared libraries<br>
+
+      </p>
+
+
+
+
+      </td>
+
+
+
+
+      <td valign="top">BLP 3,4,8,9&nbsp; <br>
+
+
+
+
+APUE 3,4,5 <br>
+
+      
+      
+      <p>&nbsp; <a href="labs/lab2.awk.libraries.html">LAB
+2</a><br>
+
+
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class 3</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">October 13</td>
+
+
+
+
+      <td style="width: 219px;" valign="top">
+
+
+Unix File I/O<br>
+
+      <br>
+
+Introduction to make&nbsp; <br>
+
+
+
+
+Debugging with gdb &amp; ddd<br>
+
+      <br>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+      <td valign="top">APUE 3,4,5,7, 10&nbsp; <br>
+
+
+
+
+[USP 2,3,4,5]&nbsp; <br>
+
+
+
+
+[UULP 3,4]&nbsp;
+      
+      
+      
+      
+      <p>&nbsp; <a href="labs/lab3.Files.stat.cp.html">LAB 3</a> <br>
+
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class 4</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">October 20 </td>
+
+
+
+
+      <td style="width: 219px;" valign="top">Unix Processes &amp; Signals<br>
+
+      <br>
+
+Introduction to Unix Processes<br>
+
+      <br>
+
+Signal Processing
+      
+      
+      
+      
+      <p>&nbsp;</p>
+
+
+
+
+      </td>
+
+
+
+
+      <td valign="top">BLP 11&nbsp; <br>
+
+
+
+
+APUE 7, 8, 10&nbsp; <br>
+
+
+
+
+[USP 10,11]&nbsp; <br>
+
+
+
+
+[UULP 8,9]&nbsp;
+      
+      
+      
+      
+      <p>&nbsp; <a href="labs/lab4.Signals.html">LAB 4</a> <br>
+
+
+
+ </p>
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class 5</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">October 27<br>
+
+
+
+
+      </td>
+
+
+
+
+      <td style="width: 219px;" valign="top">Process Creation:&nbsp;&nbsp;fork &amp; exec<br>
+
+      <br>
+
+Problem Children: &nbsp;Orphans and Zombies
+      
+      
+      
+      
+      <p>Process Communication: &nbsp;<br>
+
+Unnamed &amp; Named Pipes <br>
+
+      <br>
+
+      </p>
+
+
+
+
+      </td>
+
+
+
+
+      <td valign="top">APUE 9, 14.1-14.5&nbsp; <br>
+
+
+
+
+BLP 12&nbsp; <br>
+
+
+
+
+[USP 13(Pipes &amp; FIFOs)]&nbsp; <br>
+
+
+
+
+[UULP 10]&nbsp; <br>
+
+
+
+
+      &nbsp; <a href="labs/lab5.Processes.Pipes.html">LAB 5</a> <br>
+
+
+
+
+&nbsp;</td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class&nbsp; 6</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">November 3 </td>
+
+
+
+
+      <td style="width: 219px;" valign="top"><b><font color="#ff0000">MID TERM EXAM</font></b>&nbsp;&nbsp;&nbsp;
+(Written &amp; Live)&nbsp; <br>
+
+
+
+
+      <a href="MidTermExamTopics.html">Mid
+Term Study Guide</a></td>
+
+
+
+
+      <td valign="top"><br>
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class 7</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">November 10<br>
+
+
+
+
+      </td>
+
+
+
+
+      <td style="width: 219px;" valign="top">System V InterProcess Communication (IPC):&nbsp; <br>
+
+
+
+
+      <br>
+
+
+
+
+Semaphores<br>
+
+
+
+
+Message queues<br>
+
+
+
+
+Shared Memory</td>
+
+
+
+
+      <td valign="top">BLP, 13&nbsp; <br>
+
+
+
+
+APUE 14.6-14.11&nbsp; <br>
+
+
+
+
+[USP 13(System V IPC Functions)]&nbsp; <br>
+
+
+
+
+[UULP&nbsp; 15.3]&nbsp;
+      
+      
+      
+      
+      <p>&nbsp; <a href="labs/lab7.IPC.html">LAB 7</a> <br>
+
+
+
+      </p>
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class 8</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">November 17</td>
+
+
+
+
+      <td style="width: 219px;" valign="top">C Socket Programming&nbsp; <br>
+
+
+
+
+      </td>
+
+
+
+
+      <td valign="top">UNP1 1-9&nbsp; <br>
+
+
+
+
+[USP 14]&nbsp; <br>
+
+
+
+
+[UULP 11,12,13]&nbsp;
+      
+      
+      
+      
+      <p>&nbsp; <a href="labs/lab8.Sockets.html">
+LAB 8</a> <br>
+
+
+
+      </p>
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td><br>
+</td>
+
+
+
+
+      <td>November 24</td>
+
+
+
+
+      <td><span style="color: rgb(255, 0, 0);">NO CLASS</span></td>
+
+
+
+
+      <td><br>
+</td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;">Class 9</td>
+
+
+
+
+      <td style="width: 104px;">December 1</td>
+
+
+
+
+      <td style="width: 219px;">Sun RPC<br>
+
+      <br>
+
+Multithreaded Programming on Unix with POSIX pThreads</td>
+
+
+
+
+      <td>PPT 1-5, 8<br>
+
+
+
+
+[UULP 14]<br>
+
+
+
+
+      <br>
+
+
+
+
+      &nbsp;<a href="labs/lab9.pThreads.html">LAB 9</a><br>
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 60px;" valign="top">Class 10</td>
+
+
+
+
+      <td style="width: 104px;" valign="top">December 8<br>
+
+
+
+
+      </td>
+
+
+
+
+      <td style="width: 219px;" valign="top"><b><font color="#ff0000">FINAL EXAM</font></b>:
+(Written (Cumulative) &amp; Live (Classes 7, 8 &amp; 9 only))&nbsp; <br>
+
+
+
+
+      <a href="final.exam.study.guide.html">Final
+Exam Study Guide</a></td>
+
+
+
+
+      <td valign="top"><br>
+
+
+
+
+      </td>
+
+
+
+
+    </tr>
+
+
+
+
+  
+  
+  
+  
+  </tbody>
+</table>
+
+	</td>
+	</tr>
+</table>
+
+
+</body></html>

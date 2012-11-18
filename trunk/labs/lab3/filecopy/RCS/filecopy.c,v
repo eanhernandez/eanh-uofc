@@ -1,0 +1,155 @@
+head	1.4;
+access;
+symbols;
+locks
+	eanh:1.4; strict;
+comment	@ * @;
+
+
+1.4
+date	2010.10.20.16.24.06;	author eanh;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2010.10.20.16.22.20;	author eanh;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2010.10.20.04.35.58;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.20.02.09.15;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@initial
+@
+
+
+1.4
+log
+@removed debugging output
+@
+text
+@/*
+
+Ean Hernandez - username: eanh - cspp51081 - lab 3 - 10-20-2010 
+
+filecopy.c, a file copying program.
+
+*/ 
+
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <string.h>
+
+#define bBUFFER   40
+#define COPYMODE  00755
+void problem(char*s);
+
+int main(int argc, char *argv[])
+
+{
+   char buffer[bBUFFER];
+   int iInputFileDescriptor, iOutputFileDescriptor, iBytesRead, iBytesWrote;
+
+   if ((strcmp(argv[1],argv[2]))==0){problem("self overwrite");}
+
+   iInputFileDescriptor=open(argv[1], O_RDONLY);
+   iOutputFileDescriptor=open(argv[2],O_WRONLY|O_CREAT|O_TRUNC,COPYMODE);
+   if (iInputFileDescriptor == -1 || iOutputFileDescriptor == -1){problem("opening files");}
+
+   while ((iBytesRead=read(iInputFileDescriptor, buffer, bBUFFER))>0)
+   {
+      iBytesWrote = write(iOutputFileDescriptor, buffer, iBytesRead);
+      if (iBytesWrote != iBytesRead)
+      {
+         problem("writing files");
+      }
+   }
+
+   close(iOutputFileDescriptor);
+   close(iInputFileDescriptor);
+   printf("copyfile completed successfully.\n");
+   exit(0);
+}
+
+void problem(char*s)
+{
+   printf("copyfile encountered a problem: %s, and will now quit.\n",s);
+   printf("try not to take it personally.");
+   exit(1);
+}
+@
+
+
+1.3
+log
+@final check in
+@
+text
+@a30 1
+   printf("iInputFileDescriptor: %d\n",iInputFileDescriptor);
+@
+
+
+1.2
+log
+@basic coding, still hangs on read
+@
+text
+@d1 8
+d13 7
+a19 1
+#define bBUFFER 4
+d26 8
+a33 11
+   if ((iInputFileDescriptor =open(argv[1], O_RDONLY)==-1))
+   {
+      printf("failed to open %s",argv[1]);
+      exit(1);
+   }
+  if ((iOutputFileDescriptor=creat(argv[2], 0644))== -1)
+   {
+      printf("failed to create %s",argv[2]);
+      exit(1);
+  }
+  
+d36 2
+a37 2
+      printf("read this much:%d",iBytesRead);
+      if ((iBytesWrote = write(iOutputFileDescriptor, buffer, iBytesRead))!=iBytesRead)
+d39 1
+a39 1
+         printf("read %d, wrote %d.  this is bad.",iBytesRead,iBytesWrote);
+a40 1
+      printf(".");
+d45 3
+d49 5
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 2
+a5 1
+
+d10 22
+d33 2
+a34 2
+   printf("yo.");
+
+@

@@ -1,0 +1,12 @@
+Ean Hernandez cspp51081 10/13/2010
+
+
+$cat normal.precip.txt | ./ex1.awk 
+
+state   total   average
+CA      45.93   3.062
+TX      25.51   1.50059
+AK      55.35   2.63571
+eanh@daydream:~/cspp51081/labs/lab2/gawkPart$ 
+
+

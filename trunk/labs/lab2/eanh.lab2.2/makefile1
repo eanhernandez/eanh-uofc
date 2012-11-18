@@ -1,0 +1,46 @@
+# Ean Hernandez cspp51081 10/13/2010
+
+all: myapp
+
+# Which compiler
+CC = gcc
+
+# Where to install
+INSTDIR = install
+
+# Where are include files kept
+INCLUDE = .
+
+# Options for development
+CFLAGS = -g -Wall -ansi
+
+# Options for release
+# CFLAGS = -O -Wall -ansi
+
+# Local Libraries
+MYLIB = mylib.a
+
+main: main.o $(MYLIB)
+	$(CC) -o main main.o $(MYLIB)
+
+
+$(MYLIB): $(MYLIB)(hello.o) $(MYLIB)(here.o) $(MYLIB)(bye.o)
+#main.o: main.c mylib.h
+hello.o: hello.c mylib.h
+here.o: here.c mylib.h
+bye.o: bye.c mylib.h
+
+clean:
+	-rm main.o hello.o here.o bye.o $(MYLIB)
+
+install: main
+	@if [ -d $(INSTDIR) ]; \
+	then \
+		cp main $(INSTDIR);\
+		chmod a+x $(INSTDIR);\
+		chmod og-w $(INSTDIR);\
+		echo "Installed in $(INSTDIR)";\
+	else \
+		echo "Sorry, $(INSTDIR) does not exist";\
+	fi
+

@@ -1,0 +1,117 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.3
+date	2010.12.08.20.18.35;	author eanh;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2010.11.15.04.23.58;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.11.13.22.09.40;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <ctype.h>
+#include <unistd.h>
+struct mymsg {long msg_type;  char mytext[512];} mymsg;
+void conv(char *msg, int size);
+int main(int argc, char ** argv)
+{
+   struct mymsg mToSend, mReceived;
+   int iup_key, iup_queue, idown_queue, idown_key;
+   char user_input[512];
+
+   iup_key = ftok("..", 'u');                            // get a key for up queue
+   iup_queue = msgget(iup_key, 0777 | IPC_CREAT );       // create up queue
+   idown_key = ftok("..", 'd');                          // get a key for down queue
+   idown_queue = msgget(idown_key, 0777 | IPC_CREAT );   // create down queue
+   if (errno != 0)                                       // error handling
+   {
+      printf ("error(%d): %s\n",errno,strerror(errno));
+      return(0);
+   }  
+   while (1)
+   {
+      fgets (user_input, sizeof(user_input), stdin);
+      strcpy(mToSend.mytext,user_input);
+      mToSend.msg_type =(float) getpid();     
+      msgsnd(iup_queue,&mToSend,sizeof(struct mymsg)-sizeof(long),0);
+      if (strcmp(user_input, "shutdown\n")==0)
+      {
+         printf("bye!\n");
+         return(0);
+      }
+
+     msgrcv(idown_queue, &mReceived, sizeof(struct mymsg)-sizeof(long),0,getpid());
+      printf("received from server: %s",mReceived.mytext);
+
+   }
+      
+    return 0;
+}
+
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d7 2
+d10 1
+a10 1
+
+d13 3
+a15 6
+   struct mymsg m;
+   int ikey, imsqid;
+   ikey = ftok("..", 'm');
+   imsqid = msgget(ikey, 0777 | IPC_CREAT );
+   printf("msgget says %d\n",imsqid);
+   if (errno != 0){printf ("error(%d): %s\n",errno,strerror(errno));}
+d17 20
+a36 1
+   printf("msgrcv says %d\n",msgrcv(imsqid, &mymsg, sizeof(struct mymsg)-sizeof(long), 100, 0));
+d38 2
+a39 2
+   if (errno != 0){printf ("error(%d): %s\n",errno,strerror(errno));}
+   printf("got from queue: %s\n",mymsg.mytext);
+d41 3
+a43 1
+   return 0;
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 25
+@

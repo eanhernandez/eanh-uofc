@@ -1,0 +1,262 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+  <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]">
+  <title>Unix Systems Programming: Lab 3</title>
+
+
+</head>
+
+
+<body>
+
+<h1>Unix Systems Programming: Lab 3</h1>
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#990000"><b>Wednesday, October
+20, 2010 @ 5:00 pm; </b></font><br>
+
+<hr width="100%"> <br>
+
+<b>PURPOSE AND RATIONALE</b><br>
+
+<br>
+
+The purpose of this lab is to allow students to become comfortable with
+Unix file I/O operations,
+make
+and makefiles, and debugging.<br>
+
+<br>
+
+<b>PRIMARY RESOURCES:</b><br>
+
+<br>
+
+<a href="../LabFAQ/FAQ.html#lab3">FAQ</a>
+(submission instructions and other useful stuff)<br>
+
+You should refer to the required reading sections of the assigned texts
+in
+order to accomplish this lab.<br>
+
+<br>
+
+If possible, you should ssh into the cluster to perform all lab
+activities.&nbsp;
+<h4>README</h4>
+
+<ol>
+
+  <li> If you are not in our course email list, please subscribe
+to the cspp51081 email list here: <a href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a>
+;</li>
+
+  <li>Before starting, please reviews lecture3 note
+carefully, for each part of lab, there is also specified reading
+assignment; </li>
+
+  <li>Please pay attention to "DELIVERABLES" instruction in each
+part; </li>
+
+  <li> Turn the lab assignment in by email to the grader by the
+due date
+above.</li>
+
+  <li>Read "make and Makefile" session in Chaper 8 of BLP
+  textbook
+  if you're using that text. &nbsp;Certainly refer to the online GNU
+  documentation
+  for <a href="http://www.gnu.org/software/make/manual/">GNU make</a>.
+  </li>
+
+</ol>
+
+<h4>LAB 3</h4>
+
+<ol>
+
+  <li><b> Implement the </b><b>stat command in
+C</b>. Write a C program
+called <b>my_stat</b> that implements the default behavior
+of the UNIX <b>stat</b> command. &nbsp;Your output
+should exactly match the <i>default</i> output of the stat
+command. &nbsp;For instance:<br>
+
+    <br>
+
+File: "/usr/bin/stat"<br>
+
+Size: 7212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; Blocks:
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+IO Block: 4096&nbsp;&nbsp; Regular File<br>
+
+Device: 303h/771d&nbsp;&nbsp;&nbsp; Inode:
+311082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Links:
+1&nbsp;&nbsp;&nbsp; <br>
+
+Access: (0755/-rwxr-xr-x)&nbsp; Uid:
+(&nbsp;&nbsp;&nbsp; 0/&nbsp;&nbsp;&nbsp;
+root)&nbsp;&nbsp; Gid: (&nbsp;&nbsp;&nbsp;
+0/&nbsp;&nbsp;&nbsp; root)<br>
+
+Access: Wed Jul 10 23:00:30 2002<br>
+
+Modify: Wed Aug&nbsp; 8 10:49:41 2001<br>
+
+Change: Thu Apr&nbsp; 4 12:34:28 2002<br>
+
+    <br>
+
+    <b>Hint</b>: <tt>"man stat" and "man 2 stat</tt>".
+&nbsp;Again, the output of your stat program with the option should
+match the output of the original stat program. &nbsp;For those of
+you using
+Molay's text, you will find his discussion on the stat call on pages
+82ff
+quite helpful in using the stat call and formatting the output
+correctly.
+    <p>For <b>extra credit</b> (2 points): Implement
+handling of any one of the following two
+flags:<br>
+
+-L (follow Links)<br>
+
+-c --format (implement a subset of 5 of the formatting options (your
+choice which 5)) </p>
+
+    <p><b>DELIVERABLES: </b>your source file(s)
+(e.g., <tt>my_stat.c</tt>), a makefile, and a README as
+described in <a href="../LabFAQ/lab3/submit_lab3.html">the
+submission faq</a> </p>
+
+  </li>
+
+  <p> </p>
+
+  <li><b> Implement a simplified version of the UNIX
+program "cp"</b>
+, which copies one file to another. Call the file filecopy.c.
+&nbsp;This
+version copies only files, it does not permit the second argument to be
+a
+directory. We also ignore all options in command "filecopy".
+    <p> Please follow these steps: </p>
+
+    <ul>
+
+      <li> Read chapter 3 in the BLP textbook carefully, or
+chapter 2 of Molay
+if you're using that text. </li>
+
+      <li> Read and understand these examples: <a href="lab3/read.c">
+read.c</a> and <a href="lab3/write.c">
+write.c</a>; (man 2 read; man 2 write if necessary) </li>
+
+      <li> Use Low-level File Access functions such as creat,
+open, read,
+write, close, etc.) to implement this command</li>
+
+      <li>You must handle the situation when the second argument
+is the same
+as the first, i.e., you should not allow a file to be copied over
+itself.
+&nbsp;Handle this situation intelligently. </li>
+
+      <li> Acctually, you only need to integrate above examples
+and add only serveral lines. </li>
+
+    </ul>
+
+    <p><b>DELIVERABLES: </b>your source file(s)
+(e.g., <tt>filecopy.c</tt>), a makefile, and a README as
+described in <a href="../LabFAQ/lab3/submit_lab3.html">the
+submission faq</a> </p>
+
+  </li>
+
+  <li>
+    <h4>MARKS DISTRIBUTION</h4>
+
+    <ol>
+
+      <li>Excercise 1:</li>
+
+      <ul>
+
+        <li>8 points: implementation</li>
+
+        <br>
+
+        <li>2 points: correct results after running the
+implementation</li>
+
+        <br>
+
+      </ul>
+
+      <br>
+
+      <li>Excercise 2:</li>
+
+      <ul>
+
+        <li>8 points: implementation</li>
+
+        <br>
+
+        <li>2 points: correct results after running the
+implementation</li>
+
+        <br>
+
+      </ul>
+
+      <br>
+
+      <li>Correct Submission:</li>
+
+      <ul>
+
+        <li>3 points: correctly submitting parts 1,2</li>
+
+(Please see <a href="../LabFAQ/lab3/submit_lab3.html">
+proper submission guidelines</a>)<br>
+
+        <li>2 point: code comments to show that you know what you
+are doing </li>
+
+        <br>
+
+      </ul>
+
+      <br>
+
+Total Marks: 25
+    </ol>
+
+    <p> </p>
+
+    <hr width="100%">
+    <address> </address>
+
+    <address><a href="mailto:soner@cs.uchicago.edu">Atilla
+Soner Balkir</a></address>
+
+  </li>
+
+</ol>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+</body>
+</html>

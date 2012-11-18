@@ -1,0 +1,65 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.3
+date	2010.10.27.16.13.43;	author eanh;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2010.10.27.14.26.28;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.27.14.24.09;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@makefile
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#Ean Hernandez cspp51081 10-27-2010 LAB4
+CFLAGS=-Wall -std=gnu99
+CC=gcc
+
+esig : esig.o
+
+clean : 
+	rm -f esig.o test.sh makefile esig
+
+test : esig.c test.sh
+	./test.sh
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d9 1
+a9 1
+test1 : esig.c test.sh
+@

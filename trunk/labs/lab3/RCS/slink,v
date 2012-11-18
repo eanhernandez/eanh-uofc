@@ -1,0 +1,114 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2010.10.20.16.52.58;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#define _GNU_SOURCE
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
+#include <string.h>
+#include <dirent.h>
+
+
+char* getPerm(char n);
+int main(int argc, char* args[])
+{
+   struct stat s;
+   stat(args[1],&s);
+   char buffer[256];
+
+   printf("  file: '%s'\n", args[1]);
+   printf("  size: %ld          ", (long) s.st_size);
+   printf("blocks: %lld          ", (long long) s.st_blocks);
+   printf("io block: %ld      ", (long) s.st_blksize);
+
+   switch (s.st_mode & S_IFMT) {
+   case S_IFBLK:  printf("block device\n");            break;
+   case S_IFCHR:  printf("character device\n");        break;
+   case S_IFDIR:  printf("directory\n");               break;
+   case S_IFIFO:  printf("FIFO/pipe\n");               break;
+   case S_IFLNK:  printf("symlink\n");                 break;
+   case S_IFREG:  printf("regular file\n");            break;
+   case S_IFSOCK: printf("socket\n");                  break;
+   default:       printf("unknown?\n");                break;
+   }
+
+   printf("device: /%dd        ",(int)s.st_dev);
+   printf("Inode: %ld      ", (long) s.st_ino);
+   printf("links: %ld\n", (long) s.st_nlink);
+
+
+   char *oPermissions;
+   asprintf(&oPermissions, "%lo", (unsigned long)s.st_mode);
+   printf("access:(?%c%c%c/", oPermissions[strlen(oPermissions)-3], oPermissions[strlen(oPermissions)-2], oPermissions[strlen(oPermissions)-1]);
+   
+   printf("%s",getPerm(oPermissions[strlen(oPermissions)-3]));
+   printf("%s",getPerm(oPermissions[strlen(oPermissions)-2]));
+   printf("%s",getPerm(oPermissions[strlen(oPermissions)-1]));
+   printf(")   ");
+
+   struct passwd* userInfo;
+   userInfo = getpwuid (s.st_uid);
+
+   struct group * groupInfo;   
+   groupInfo = getgrgid (s.st_gid);
+
+   printf("uid: (%d   /   %s)",(int) s.st_uid, userInfo->pw_name);
+   printf("    gid: (%ld  /  %s)", (long) s.st_gid,groupInfo->gr_name); printf("\n");
+   strftime (buffer, 256, "access: %Y-%m-%d %H:%M:%S.%%06u ???????? %z", localtime(&s.st_ctime)); printf(buffer); printf("\n");
+   strftime (buffer, 256, "modify: %Y-%m-%d %H:%M:%S.???????? %z", localtime(&s.st_atime)); printf(buffer); printf("\n");
+   strftime (buffer, 256, "change: %Y-%m-%d %H:%M:%S.???????? %z", localtime(&s.st_mtime)); printf(buffer); printf("\n");
+
+/*   printf("misc...\n");
+   printf("%ld\n",(long)s.st_dev);
+   printf("%ld\n",(long)s.st_ino);
+   printf("%ld\n",(long)s.st_mode);
+   printf("%ld\n",(long)s.st_nlink);
+   printf("%ld\n",(long)s.st_uid);
+   printf("%ld\n",(long)s.st_gid);
+   printf("%ld\n",(long)s.st_rdev);
+   printf("%ld\n",(long)s.st_size);
+   printf("%ld\n",(long)s.st_blksize);
+   printf("%ld\n",(long)s.st_blocks);
+   printf("%ld\n",(long)s.st_atime);
+   printf("%ld\n",(long)s.st_mtime);
+   printf("%ld\n",(long)s.st_ctime);
+*/
+   }
+char* getPerm(char n)
+{
+   if (48==(int)n) { return "---";}
+   if (49==(int)n) { return "--x";}
+   if (50==(int)n) { return "-w-";}
+   if (51==(int)n) { return "-wx";}
+   if (52==(int)n) { return "r--";}
+   if (53==(int)n) { return "r-x";}
+   if (54==(int)n) { return "rw-";}
+   if (55==(int)n) { return "rwx";}
+   return "!!!";
+
+}
+@

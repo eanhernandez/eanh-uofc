@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Lab3 FAQ</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<h1> Lab3 FAQ</h1>
+<p> 
+	This document contains Frequently Asked Questions,  which are relevant to completing the week's lab
+assignment.  Any Questions may be posted to <a href="mailto:cspp51081@cs.uchicago.edu">cspp51081</a>.	
+</p>
+
+<h3>Exercise 1: my_stat</h3>
+<ul>
+<li><strong>How it will be graded: </strong><BR>
+<p>This exercise is long, and it tests your ability to find information in the manual pages and source
+header files.  Your function <font face="Courier New, Courier, mono">my_stat</font> must perform as
+the Unix command <font face="Courier New, Courier, mono">stat</font>.  (In what follows I will refer to
+the C function in italics:  <em>stat</em>.)  This means we expect that<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font face="Courier New, Courier, mono">my_stat </font>&nbsp;<em>file</em><br><br>
+behaves like <font face="Courier New, Courier, mono">stat</font> : 
+<ul>
+	<li>Displays the same information, in the same order, in the same way.  Try to make your
+		output look like <font face="Courier New, Courier, mono">stat</font>, but some
+		deviation is acceptable.</li>
+	<li>Behave the same way on each kind of file given:  Regular files, directories,
+	 <em>symbolic links</em>, files with special permissions (<em>set user</em> enabled or
+	  the <em>sticky bit</em> enabled.) </li>
+	 <li>Re-act similarly to error conditions:  no argument given, multiple arguments given, 
+	 	arguments which are not files.</li>	
+</ul>	
+</p>
+</li>
+<li><strong>Help!!:  How do I do it?</strong>
+<p>    This is an exercise in your resourcefulness in finding information.  Start with the unix 
+<a href="../introlab/manpage.html">manpages</a> for <font face="Courier New, Courier, mono">stat</font>
+and <em>stat</em> (see previous FAQ message for the distinction.)   The key to implementing this project
+is <font face="Courier New, Courier, mono">struct stat</font> found in
+ <font face="Courier New, Courier, mono">/usr/include/sys/stat.h</font>:  everything you need to implement
+ <font face="Courier New, Courier, mono">stat</font> is found in this structure.  The challenge is
+ to extract this information and displaying it.  The manpages will give you useful macros and auxillary
+ functions for doing this.  In addition, I have found the following two sources very helpful:
+  <ul>
+ 	<li>Molay, <em>Understanding Unix/Linux Programming</em>, pp. 82-90</li>
+	<li>Stevens, <em>Advanced Programming in the Unix Environment</em>, Chapter 4.</li>
+ </ul>
+ <br>
+ I leave you with a hint:  pay careful attention to what the Unix command
+  <font face="Courier New, Courier, mono">stat</font> does when given a symbolic (soft) link.
+ </p> 
+</li>
+<li><strong>Printing the device number for <font face="Courier New, Courier, mono">my_stat</font>.</strong>
+ <p>
+       The Unix command <font face="Courier New, Courier, mono">stat</font>
+ prints the following data for <font face="Courier New, Courier, mono">/dev/ttysf</font> (a special charcter file for a
+terminal)<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font face="Courier New, Courier, mono">Device:   301h/769d</font><br>
+The information here comes from the <font face="Courier New, Courier, mono">struct stat</font> 
+element <font face="Courier New, Courier, mono">st_dev</font> and the two values are the hexidecimal
+representation (301) and decimal representation (769) of 
+<font face="Courier New, Courier, mono">st_dev</font>.  Armed with this knowledge you should have no
+problem printing this line<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font face="Courier New, Courier, mono">printf("%10s %xh/%dd\t", "Device:", buf.st_dev, buf.st_dev);</font>	<br>
+Not so fast.  You will get the following output:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font face="Courier New, Courier, mono">Device:   301h/0d</font><br>	 
+What has happened?  The type of <font face="Courier New, Courier, mono">st_dev</font> is 
+<font face="Courier New, Courier, mono">dev_t</font>, so what in the world is this?
+     A search of the header file <font face="Courier New, Courier, mono">/usr/include/sys/types.h</font>
+ (a required header file to use <em>stat</em>) led me to the following<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font face="Courier New, Courier, mono">typedef __dev_t dev_t;</font> <br>
+(not too helpful). Following the scent I went to the header file
+ <font face="Courier New, Courier, mono">/usr/include/bits/types.h</font>, of 
+ <font face="Courier New, Courier, mono">sys/types.h</font>
+  and found the following:<br>
+ 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <font face="Courier New, Courier, mono">typedef __u_quad_t __dev_t;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              /* Type of device numbers.  */ </font><br>
+ 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font face="Courier New, Courier, mono">typedef unsigned long long int __u_quad_t;</font><br>
+So, <font face="Courier New, Courier, mono">dev_t</font> is really of type
+<font face="Courier New, Courier, mono">unsigned long long int</font>.  This is no stutter, a couple of
+years ago C extended its types to include 64-bit integers, and Linux has chosen to use this type to
+to code the device number.  (Not all machines have 64-bit integer types and not all compilers recognize
+this type--although gcc does--so you will find an alternate definition of 
+<font face="Courier New, Courier, mono">__u_quad_t</font> as a struct consisting of an array of two
+unsigned long integers.  This is just a piece of kluge.)</p>
+<p>
+To use <font face="Courier New, Courier, mono">printf</font> to print such a value you will use a 
+modifier:  <font face="Courier New, Courier, mono">ll</font> (i.e. long long) and the type
+<font face="Courier New, Courier, mono">u</font> (unsigned) <br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font face="Courier New, Courier, mono">printf("%10s %llxh/%llud\t", "Device:", buf.st_dev, buf.st_dev);</font>	<br>
+<br><br>See Molay, <em>Understanding Unix/Linux Programming</em>, pp. 131-4 (for filesystems--which are the location given
+by <font face="Courier New, Courier, mono">st_dev</font>, for regular files and directories)
+ and pp. 140-5 (with special files where <font face="Courier New, Courier, mono">st_dev</font>
+  give their location in the actual code the kernel uses to
+ service these devices.) 
+ </p>
+ </li>
+ <li><strong>Test <font face="Courier New, Courier, mono">my_stat</font> on an assortment of files.</strong><BR>
+ <p>
+ You will want to test <font face="Courier New, Courier, mono">my_stat</font> on a number of different
+ kinds of files, and permissions, to make sure it works properly.  These are the kinds of test we will
+ run on your command.  Here are some files I found on on the Department's server:<br>
+ <ul>
+ 	<li>For character special (mainly terminals which read and print characters) and block special
+		files (mainly storage devices which read and print to blocks), you will find many choices
+		in the directory <font face="Courier New, Courier, mono">/dev</font>.</li>
+	<li> Pipes are hard to find (you will be creating your own shortly) since they generally aren't
+		  around long, but one which is permanent is <font face="Courier New, Courier, mono">/dev/xconsole</font>.
+		  I believe this is a pipe which sends commands executed from the X Window console to the shell for
+		  processing.</li>
+	<li> For an example of a socket, try <font face="Courier New, Courier, mono">/dev/log</font>
+	 which is a socket to the department's data file <font face="Courier New, Courier, mono">passwd</font>
+		  and accessed when you log-on.  Recall, that <font face="Courier New, Courier, mono">ypcat passwd</font> connected you to this network
+		  when you were looking for 'John's.</li>	  	
+ </ul>
+ You can easily find examples of the rest.  <br><br>
+ </p>
+ </li>
+ <li><strong>Device Numbers for Special File types</strong><br>
+ <p>
+ Character special files and Block special files are really device drivers, they are typically
+  parts of the kernel code.  Stat displays a special field for these files:  "Device type" which displays
+  two values:<br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <font face="Courier New, Courier, mono">"Device type:  a,3"</font><br><br>
+  These values are given by the structure element <font face="Courier New, Csp;&nbsp;&nbsp;&nbsp;ourier, mono">st_rdev</font>
+  and can be accessed using two special macros:  <font face="Courier New, Courier, mono">major</font>
+  , <font face="Courier New, Courier, mono">minor</font>.  They are printed in hexadecimal notation:<br><br>
+ 
+<font face="Courier New, Courier, mono">  maj = major(buf.st_rdev);<br>
+  min = minor(buf.st_rdev);<br>
+  printf("%11s:  %x,%x", "Device type", maj, min);</font><br><br>
+ </p>
+ </li>
+ <li><strong>Twelve Permission Bits of Mode</strong><br>
+ <p>
+ The structure element <font face="Courier New, Courier, mono">st_mode</font> consists of 16 significant
+ bits:  The first 12 are for permisions the last four are for the seven file types.  You know about
+ the first nine permissions:  'r','w' and 'x' for the user, group and everyone else.
+ The last three are special access permissions:  set-user, set-group and the sticky
+ bit.  Molay, <em>Understanding  Unix/Linux Programming</em> (pp. 91-7) is a very good reference.
+ These permissions can be set using the Unix command <font face="Courier New, Courier, mono">chmod</font>:
+ <ul>
+ 	<li><font face="Courier New, Courier, mono">chmod u+s</font> will set the
+ 	  set-user permission:  The set-user permission allows the owner of
+ 	  the file to set the rules for changing the file, by giving everyone access to the file only
+	  through a user defined command.  For example, /usr/bin/passwd often has this 
+	  permission set to allow a user to modify this file if to
+ 	  change their passwd, but not to be able to modify anything else. </li>
+	<li><font face="Courier New, Courier, mono">chmod u+g</font> will set the
+ 	  set-group permission</li>
+	<li> <font face="Courier New, Courier, mono">chmod o+t</font> will set the sticky bit, but this is
+	   only  meaningful for directories.  For example,
+	 <font face="Courier New, Courier, mono">/temp</font> is a directory with the sticky bit set.  Many
+		people will write to this directory (when they want to create temporary files), but only those who
+		own the file have permission to remove their files.</li>	
+ </ul>
+ Be aware that stat prints all 12 bits in the access permissions field. 
+ </p>
+</li>
+</ul>
+<br>
+<h3>Exercise 2: filecopy</h3>
+<ul>
+<li><strong>How it will be graded:</strong><br>
+<br>
+<p>Your function <font face="Courier New, Courier, mono">filecopy</font> should act like the Unix <font face="Courier New, Courier, mono">cp</font> command when given two file arguments.  This means when we type on the commandline<br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font face="Courier New, Courier, mono">filecopy </font>&nbsp;<em>source</em> &nbsp; <em>destination</em><br><br>
+we expect <font face="Courier New, Courier, mono">filecopy</font> to behave like
+<font face="Courier New, Courier, mono">cp</font> (You will not implement any of the options of
+<font face="Courier New, Courier, mono">cp</font>.)  You will find valuable source code in the lab
+documentation, as well as in Molay,<em> Understanding Unix/Linux Programming</em>, chapter 2.<br><br>
+Pay careful attention to the following conditions:
+<ul>
+<li>What happens if zero, one or more than two arguments are entered.</li>
+<li>What happens if one of <em>source</em> or <em>target</em> are symbolic links.</li>
+<li>What happens if one of <em>source</em> or <em>target</em> does not exist.</li>
+<li>What happens if one of <em>source</em> or <em>target</em> is a directory.</li>
+</ul>
+<br>
+Your <font face="Courier New, Courier, mono">cp</font> will be tested against these scenarios--this
+is the heart of your work.</p>
+</li>
+</ul>
+</body>
+</html>
+
