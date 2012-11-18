@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta content="text/html; charset=iso-8859-1"
+ http-equiv="Content-Type">
+  <meta
+ content="Mozilla/4.73 [en] (X11; U; Linux 2.4.17 i586) [Netscape]"
+ name="GENERATOR">
+  <title>Lab 5 Submission Instructions</title>
+</head>
+<body>
+<h2>
+How to Submit Lab5</h2>
+Please note that this Submission guide supercedes any instructions
+labeled
+<b>DELIVERABLES</b> on lab assignment 5.
+<ol>
+  <li>
+Create a directory:</li>
+  <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>username</i><font
+ face="Courier New, Courier, mono">.lab5</font>
+  <li>There will be three directories each corresponding to a separate
+problem.
+Make sure your name is at the top of every file. Every directory <b>must</b>
+include a make file to build your executable code. Be sure this file is
+called <font face="Courier New, Courier, mono">makefile</font>. This <i>make</i>
+file must include a target <font face="Courier New, Courier, mono">clean</font>,
+for removing all executables.</li>
+  <ul>
+    <li>
+Directory: ex1</li>
+    <br>
+&nbsp;&nbsp;&nbsp; This is for your gosh shell. It must include
+    <ul>
+      <li>
+Source code for building your program</li>
+      <li>
+A <i>make</i> file called <font face="Courier New, Courier, mono">makefile</font></li>
+      <li>
+We will call <font face="Courier New, Courier, mono">make</font> and
+will
+expect that it will build an executable file called <font
+ face="Courier New, Courier, mono">gosh</font>.
+This file will be executed on the command line (without arguments) to
+run
+your gosh shell.</li>
+      <li>
+a transcript file showing your program works.</li>
+    </ul>
+    <li>
+Directory: ex2</li>
+    <br>
+&nbsp;&nbsp; This directory will implement the shell pipe using an
+unnamed pipe.
+    <ul>
+      <li>
+Source code for building your program</li>
+      <li>
+A <i>make</i> file called <font face="Courier New, Courier, mono">makefile</font></li>
+      <li>
+We will call <font face="Courier New, Courier, mono">make</font> and
+will
+expect that it will build an executable file called <font
+ face="Courier New, Courier, mono">my_upipe</font>.
+This file will be executed on the command line as follows</li>
+      <p><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">my_upipe
+"cat /etc/passwd" "grep root"</font>
+      </p>
+      <p>Your program must except two arguments, each argument will be
+double-quoted,
+and your program must respond as the shell pipe:
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">cat
+/etc/passwd | grep root</font>
+      </p>
+      <p>Your program must respond gracefully to fewer or more than two
+arguments,
+by informing the user the proper syntax of the command.
+      </p>
+      <li>a transcript file showing your program works.</li>
+    </ul>
+    <li>
+Directory: ex3</li>
+    <br>
+&nbsp;&nbsp; This directory will implement named pipes.
+    <ul>
+      <li>
+Source code for building your program.</li>
+      <li>
+A <i>make</i> file called <font face="Courier New, Courier, mono">makefile</font></li>
+      <li>
+We will call <font face="Courier New, Courier, mono">make</font> and
+will
+expect that it will build two executable files called <font
+ face="Courier New, Courier, mono">my_npipe_reader</font>
+and <font face="Courier New, Courier, mono">my_npipe_writer</font>.
+The
+first file will read from a named pipe what is written by the second
+file.
+The second file will obtain its input by prompting a user, and will
+continue
+to accept input until the user types 'exit'. The first file will
+terminate
+only upon reading 'exit' from the second file.These files will be
+executed
+on the command line (without arguments).</li>
+      <li>
+a transcript file showing your program works.</li>
+    </ul>
+  </ul>
+  <li>
+When you are finished with your assignment you will create a compressed
+archive file using <font face="Courier New, Courier, mono">tar</font>
+(this
+utility stores your directory as a single file, then compresses its
+size.)</li>
+  <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">tar
+-czvf&nbsp;</font>&nbsp; <i>username</i><font
+ face="Courier New, Courier, mono">.lab5.tgz</font>&nbsp;&nbsp;
+  <i>username</i><font face="Courier New, Courier, mono">.lab5</font>
+  <li>You will email your file to the grader as an
+attachment.</li>
+  <br>
+&nbsp;
+  <table width="75%" border="1">
+    <tbody>
+      <tr>
+        <td>To</td>
+        <td>&nbsp;bsm@cs.uchicago.edu</td>
+      </tr>
+      <tr>
+        <td>Attachment</td>
+        <td>&nbsp;<i>username</i><font face="Courier New, Courier, mono">.lab5.tgz</font></td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td>&nbsp;CSPP51081 Lab 5</td>
+      </tr>
+    </tbody>
+  </table>
+</ol>
+</body>
+</html>

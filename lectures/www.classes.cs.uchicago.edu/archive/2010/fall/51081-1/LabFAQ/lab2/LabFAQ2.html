@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 6 November 2007), see www.w3.org">
+<title>LabFAQ2</title>
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+</head>
+<body>
+<h1>Lab2 FAQ</h1>
+<p>This document contains Frequently Asked Questions, which are
+relevant to completing the week's lab assignment. Any Questions may
+be posted to <a href=
+"mailto:cspp51081@cs.uchicago.edu">cspp51081</a>.</p>
+<h3>Bonus points for Exercise 1</h3>
+Write your <font face="Courier New, Courier, mono">gawk</font>
+script so that the user can type any two-letter state abbreviation
+and any three-letter month abbreviation, and have the contents
+displayed. This should only take a couple of changes to your
+script.
+<h3>Submitting Bonus Credit</h3>
+The <em>only way</em> to recieve credit for bonus, is to follow the
+submission procedure below.
+<ul>
+<li>Add one new file to your directory you submit: <font face=
+"Courier New, Courier, mono">README</font><br>
+This file must explain
+<ul>
+<li>The proper command line syntax for your script.</li>
+<li>Briefly, what your script does, over and above what is required
+in the assignment.</li>
+</ul>
+</li>
+</ul>
+<h3>How the homework will be tested.</h3>
+<p><strong>Exercise 1</strong>: You will need an awk script file
+(this simply means a file written for <font face=
+"Courier New, Courier, mono">awk</font> to read, and requires
+nothing special on your part), which we will test by running:<br>
+<br>
+&nbsp;&nbsp;<font face="Courier New, Courier, mono">% awk -f
+ex2.awk normal.precip.txt</font><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face=
+"Courier New, Courier, mono">The normal rainfall for Alaska is
+XX.XX</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face=
+"Courier New, Courier, mono">The normal rainfall for California is
+XX.XX</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face=
+"Courier New, Courier, mono">The normal rainfall for Texas is
+XX.XX</font><br>
+<br>
+Your script does not need to reproduce this text exactly, but must
+identify the state and the correct rainfall.</p>
+<h3>Submitting the Bonus, a clarification.</h3>
+<p>If you plan on writing versions of the exercise which are more
+robust (as explained above), you only need to submit two script
+files <font face="Courier New, Courier, mono">ex1</font> and
+<font face="Courier New, Courier, mono">ex2</font> plus a document
+entitled <font face="Courier New, Courier, mono">README</font> to
+explain the correct commandline syntax and what your script
+does.<br>
+<strong>Exercise 1</strong>: You will probably want to implement
+<font face="Courier New, Courier, mono">ex1</font> as a shell
+script, since it will need arguments supplied by the user. For
+example<br>
+<br>
+&nbsp;&nbsp;<font face="Courier New, Courier, mono">% ex1.awk CA
+JAN</font><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face=
+"Courier New, Courier, mono">The normal rainfall for CA in the
+month of JAN is XX.XX</font><br>
+<br>
+The exact output is up to you but it must identify the state and
+month.</p>
+</body>
+</html>

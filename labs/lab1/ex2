@@ -1,0 +1,23 @@
+Script started on Wed 06 Oct 2010 02:12:11 PM CDT
+eanh@daydream:~$ finger John | grep John | uniq -c | wc -l
+31
+eanh@daydream:~$ lpq
+ry402 is ready
+no entries
+eanh@daydream:~$ umask
+0022
+eanh@daydream:~$ umask 072
+eanh@daydream:~$ touch beep
+eanh@daydream:~$ ls -al beep
+-rw----r-- 1 eanh cppcs 0 2010-10-06 14:12 beep
+eanh@daydream:~$ ps ax -U root -u root -o pid= | tr '\n' ' ' | tr -s ' ' | tr ' ' ','
+,1,2,3,4,5,6,7,39,41,42,97,133,134,135,136,344,345,376,463,704,705,881,1194,1432,1443,1628,1637,1652,1662,1740,1758,1875,1933,2000,2144,2152,2156,2160,2176,2178,2203,2211,2249,2262,2396,2398,2439,2496,2505,2521,2533,2534,2552,2558,2564,2576,2598,2608,2613,2615,2616,2618,2643,2654,2659,2711,2712,2713,2714,2715,2834,2981,3888,4141,4389,8900,14798,17468,20131,22632,24891,27103,28632,28633,28634,28635,28636,30300,30304,30305,31162,31284,31288,31341,32501,32502,32503,32545,32546,32547,32548,32549,32550,eanh@daydream:~$ 
+eanh@daydream:~$ ssh eanh@foster.cs.uchicago.edu -C finger | tr -s ' ' | grep -Ev 'Login Name' | sort +1 -1| cut -d' ' -f1,2 |  uniq |  nl
+eanh@foster.cs.uchicago.edu's password: 
+     1	bsm Brian
+     2	hjlevin Heidi
+     3	mgao Fenge
+eanh@daydream:~$ exit
+exit
+
+Script done on Wed 06 Oct 2010 02:13:31 PM CDT

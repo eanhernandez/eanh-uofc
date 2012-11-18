@@ -1,0 +1,333 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+  <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]">
+  <title>Unix Systems Programming: Lab 8</title>
+
+
+</head>
+
+
+<body>
+
+<h1>Unix Systems Programming: Lab 8</h1>
+
+<br>
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"></span><font color="#990000"><b>Wednesday, December 1, 2010 @ 5:00 pm</b></font>.<br>
+
+<h3>Purpose and Rationale</h3>
+
+<p> The purpose of this lab is to allow students to become
+comfortable
+with
+Socket programming.
+</p>
+
+<h3>Resources</h3>
+
+<a href="../LabFAQ/FAQ.html#lab8">FAQ</a>
+(submission instructions and other useful stuff)<br>
+
+<p>If you are not in our course email list, please subscribe to
+the
+cspp51081 email list here:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">
+http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a><br>
+
+You will also find the course <a href="../LabFAQ/FAQ.html#lab8">FAQ</a>
+containing useful information for this
+assignment.
+</p>
+
+<p> Lecture 8 is the primary source for information on
+programming
+Sockets. You can find additional information in the manpages, online,
+as well as the following sources: </p>
+
+<ul>
+
+  <li> Molay, <em>Understanding Unix/Linux Programming</em>
+    <ul>
+
+      <li>Section 11.5 is an introduction to setting up a socket
+connection, from the server and client side.</li>
+
+      <li>Chaper 12 provides a thorough example of using a socket
+in
+making a webserver.</li>
+
+      <li>Chapter 13 gives an example of setting-up a socket
+using a
+datagram socket (UDP protocol). The earlier references set-up a stream
+socket (TCP protocol.)</li>
+
+    </ul>
+
+  </li>
+
+  <li>Several helpful online resources were provided in the
+lecture.
+These can be found at <a href="../LabFAQ/FAQ.html#lab8">FAQ</a></li>
+
+</ul>
+
+<h3>Point Value</h3>
+
+<p> Lab 8 is worth 25 points, five of those points are for
+correct
+submission. There is also a <strong>bonus</strong> worth
+10 points.</p>
+
+<!-- Socket Exercise -->
+<h2>Sockets Programming</h2>
+
+<h3>Background</h3>
+
+<p> Sockets enable processes connected over networks to
+communicate
+with one another. The socket interface allows for a standard set of
+function calls
+that hide some of the details of the underlying networking details from
+the programmer. We probably use sockets every day, you've used one to
+look at
+this web page (http connections are typically made as a socket
+connection
+to port 80 on a server). They are used for simple tasks such as public
+chat
+rooms and for complex tasks such as massively parallel super computer
+intercommunications.
+Here is a nice <a href="./sock.html"> socket tutorial</a>
+with code
+examples. </p>
+
+<h3>Project</h3>
+
+<p> One common use of sockets is to facilitate a distributed
+workload
+system
+such that a slow client machine can make a computationally intensive
+request
+of a faster server machine via the network and sockets (in fact, this
+forms
+the basis of RPC concepts). The goal of this project is to write both a
+client
+and a server that together create such a system. The program flow could
+resemble the following:
+</p>
+
+<ol>
+
+  <li>The client will request the input of a word from the user
+via
+stdin.</li>
+
+  <li>This word will be transferred to the server over a raw
+socket
+connection.</li>
+
+  <li>The server will check the word for proper spelling and
+return a
+response that the word was spelled correctly, or a response that the
+word was spelled incorrectly.</li>
+
+  <li>The client will then display a formatted result of the
+server's
+response to the user. For example, a message stating, "The word --- is
+spelled correctly." or "The word --- is spelled correctly."</li>
+
+</ol>
+
+<p> The server must take the port number that it will be
+listening to
+as a command
+line argument. The client must take the name of the server machine and
+the
+port number to connect to as two command line arguments. On the server
+side,
+you may use the file <code>/usr/share/dict/words</code> on
+CS machines to
+look up the correct
+spelling of user input. This means that a word not found on the list
+will be considered to be
+incorrectly spelled. </p>
+
+<!-- Bonus Problem -->
+<h3>Bonus Problem</h3>
+
+<p> For the Bonus, your server will send a short list (no more
+than
+ten, but possibly none)
+of alternative spellings, if the word provided by the client does not
+appear in the list of words you
+searched. The new protocol will be
+</p>
+
+<ol>
+
+  <li>The client will request the input of a word from the user
+via
+stdin.</li>
+
+  <li>This word will be transferred to the server over a raw
+socket
+connection.</li>
+
+  <li>The server will check the word for proper spelling and
+return a
+response that the word was spelled correctly, or a response that the
+word was spelled incorrectly. If the word was not spelled correctly,
+the server will search for alternative possible spellings. These
+alternatives will be passed to the client.</li>
+
+  <li>The client will then display a formatted result of the
+server's
+response to the user. For example, a message stating, "The word --- is
+spelled correctly." or "The word --- is spelled correctly." In this
+latter case, the client will display a short list (no more than ten) of
+alternative spellings provided by the server.</li>
+
+</ol>
+
+<p> One heuristic for choosing alternative spellings (suggested
+in
+class), is to look for all words
+contain exactly the same consonants, in the same order, but considers
+vowel alternatives. A simple
+way to do this is to form a regular expression from a word, replacing
+each vowel with '[aeiou]?'. You
+may consider more elaborate alternatives. It is possible that there are
+no alternative spellings found. This should not happen too often
+though. Your heuristic should be able to provide the correct spelling
+for words like "booot" and "recieve". </p>
+
+<!-- Deliverables -->
+<h3>Deliverables</h3>
+
+<p> Follow the procedure <em>carefully</em>, correct
+delivery of your
+work is worth 5 points. Follow the 5 steps below. </p>
+
+<ol>
+
+  <li>Create a directory:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>username</em><font face="Courier New, Courier, mono">.lab8</font></li>
+
+  <li>You will have one directory to store your assignment:</li>
+
+  <ul>
+
+    <li><code>ex</code>: &nbsp;&nbsp; If you
+are submitting the
+exercise without Bonus</li>
+
+    <li><code>bonus</code>: &nbsp;&nbsp; If
+you are submitting the
+exercise with Bonus</li>
+
+  </ul>
+
+  <li> This directory will contain:
+    <ul>
+
+      <li>All C files needed to build your client and server.</li>
+
+      <li>A file named <code>Makefile</code>, which
+will build both
+your client and server, when <code>make</code> is entered
+on the
+command line. In addition, your make file must contain a target <em>clean</em>
+which will remove all executables created by <em>make</em>
+when <code>make
+clean</code> is entered on the command line.</li>
+
+      <li>A <code>README</code> text file which
+explains what your
+server does for a client. If you are doing the <strong>bonus</strong>
+you must also include an explanation of what heuristic you used to
+provide alternative spellings. </li>
+
+      <li>There should be no object files or executable files in
+your
+submission. Please make sure that all back-up files generated by emacs
+(*~) are removed.</li>
+
+    </ul>
+
+  </li>
+
+  <li>When you are finished with your assignment you will create
+a
+compressed archive file using <font face="Courier New, Courier, mono">tar</font>
+(this utility stores your directory as a single file, then compresses
+its size.)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face="Courier New, Courier, mono">tar -czvf </font>&nbsp;
+    <em>username</em><font face="Courier New, Courier, mono">.lab8.tgz</font>
+&nbsp;&nbsp;<em>username</em><font face="Courier New, Courier, mono">.lab8</font> <br>
+
+  </li>
+
+  <li>You will email your file to our grader Soner as an
+attachment. I will send an aknowledgement that your assignment has been
+received.<br>
+
+    <br>
+
+  </li>
+
+  <table border="1" width="75%">
+
+    <tbody>
+
+      <tr>
+
+        <td>To</td>
+
+        <td>&nbsp;soner@cs.uchicago.edu</td>
+
+      </tr>
+
+      <tr>
+
+        <td>Attachment</td>
+
+        <td> &nbsp;<em>username</em><font face="Courier New, Courier, mono">.lab8.tgz</font></td>
+
+      </tr>
+
+      <tr>
+
+        <td>Subject</td>
+
+        <td>&nbsp;CSPP51081</td>
+
+      </tr>
+
+    </tbody>
+  </table>
+
+</ol>
+
+<!-- End of Deliverables, and Preamble to Lab 8 -->
+<hr width="100%">
+<address> </address>
+
+<address> <a href="mailto:soner@cs.uchicago.edu">Atilla
+Soner Balkir</a></address>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+</body>
+</html>

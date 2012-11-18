@@ -1,0 +1,213 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+  <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]">
+  <title>Unix Systems Programming: Lab 4</title>
+
+
+</head>
+
+
+<body>
+
+<h1>Unix Systems Programming: Lab 4</h1>
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#990000"><b>Wednesday, October 27, 2010 @ 5:00
+pm<!--EX1: Monday, November 7, 2005 @5:00 pm; EX2,EX3: Friday,
+November 18, 2006--></b></font>.
+&nbsp;<br>
+
+<span style="font-style: italic; font-weight: bold;"></span><br>
+
+<hr width="100%"> <br>
+
+&nbsp;<b>PURPOSE AND RATIONALE</b><br>
+
+<br>
+
+The purpose of this lab is to allow students to become comfortable with
+signal handling and processing in Unix.<br>
+
+<br>
+
+<b>PRIMARY RESOURCES:</b><br>
+
+<br>
+
+<a href="../LabFAQ/FAQ.html#lab4">FAQ</a>
+(submission instructions and other useful stuff)<br>
+
+<br>
+
+You should refer to the required reading sections of the assigned texts
+in order to accomplish this lab.<br>
+
+<br>
+
+If possible, you should ssh into the cluster to perform all lab
+activities.&nbsp;
+&nbsp;
+<h4>README</h4>
+
+<ol>
+
+  <li> If you are not in our course email list, please subscribe
+to the cspp51081 email list here: <a href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a>
+;</li>
+
+  <li>Before starting, please reviews lecture4 note carefully,
+for each
+part of lab, there is also specified reading assignment; </li>
+
+  <li>Please pay attention to "DELIVERABLES" instruction in each
+part; </li>
+
+  <li> Turn the lab assignment in by email to the grader by the
+due date.</li>
+
+</ol>
+
+<h4>LAB 4</h4>
+
+<ol>
+
+  <li>
+    <p> Signal Handling<br>
+
+    </p>
+
+    <b> </b> <br>
+
+Write a signal handler that catches the CTRL-C (SIGINT signal 2) and
+SIGUSR1 (signal 10) signals. &nbsp; Your process should not by
+default exit on CTRL-C back to your shell.&nbsp; You may want to
+look on the BLP <a href="CODE/BeginningLinuxProgramming/chapter10/alarm.c">
+example</a> on signals, or Chapter 6 of Molay's text if you're
+using that.
+&nbsp;The following requirements apply:<br>
+
+    <br>
+
+  </li>
+
+  <li>You should accumulate the handling of CTRL-C in the
+handler. &nbsp;That
+is to say, you should have a variable counter accumulate each time the
+handler
+is called, and print out the current count in the handler.
+&nbsp;For instance,
+if you've hit CTRL-C 6 times, your handler should print out something
+to
+the effect of "You've pressed Ctrl-C 6 times. &nbsp;Aren't you
+getting the
+message that I'm invulnerable?" &nbsp;</li>
+
+  <li>Your program should accept a command line argument that
+specifies
+the MAXSTOPS allowed, after which, Ctrl-C is handled in the default way
+(i.e.,
+the program terminates). &nbsp;So if the user passes in '10' on the
+command
+line, the program prints out it's message above the first 9 times, but
+the
+10th time CTRL-C is pressed, the default action applies (program
+termination).<br>
+
+  </li>
+
+  <li>You should print out a message that states that your
+program received
+the SIGUSR1 signal when it is handled. &nbsp;You should be able to
+issue
+a kill command to send your program the SIGUSR1 signal, and have that
+signal
+handled properly (by printing out a receipt notification) and then
+continue
+to function and handle subsequent CTRL-C and SIGUSR1 signals. </li>
+
+</ol>
+
+<p> Please following these steps to finish this part
+smoothly: </p>
+
+<ul>
+
+  <li> Read "signal" session in Chapter 11 of BLP textbook or
+in Chapter
+6 of Molay's text. </li>
+
+  <li> Read and understand the example code first.</li>
+
+  <li>Understand that handling SIGUSR1 is one of the most
+primitive forms
+of interprocess communication in Unix (i.e., you are communicating with
+another
+process). </li>
+
+</ul>
+
+<p><b>DELIVERABLES: </b>your source file(s)
+(e.g., <tt>my_sig.c</tt>), a makefile, and a README as
+described in <a href="../LabFAQ/lab4/submit_lab4.html">the
+submission faq<span style="font-weight: bold;"></span></a></p>
+
+<p><a href="../LabFAQ/lab4/submit_lab4.html"><span style="font-weight: bold;"></span></a> </p>
+
+<ol>
+
+  <h4>MARKS DISTRIBUTION</h4>
+
+  <ol>
+
+    <li>Excercise 1:</li>
+
+    <ul>
+
+      <li>5.5 points: code that compiles, executes, and handles SIGINT as in point 4.1</li>
+
+      <br>
+
+      <li>5.5 points: correct accumulation of signal counts as in point 4.2</li>
+
+      <br>
+
+      <li>5.5 points: correct handling of MAXSTOPS argument as in point 4.3</li>
+
+      <br>
+
+      <li>5.5 points: correct handling of SIGUSR1 as in point 4.4</li>
+
+      <li>3 points: proper submission according to submission guidelines&nbsp; </li>
+
+      <br>
+
+    </ul>
+
+    <br>
+
+Total Marks: 25
+  </ol>
+
+  <p> </p>
+
+  <hr width="100%">
+  <address> </address>
+
+  <address><a href="mailto:soner@cs.uchicago.edu">Atilla
+Soner Balkir</a></address>
+
+</ol>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+</body>
+</html>

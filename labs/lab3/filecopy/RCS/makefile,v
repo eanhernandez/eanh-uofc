@@ -1,0 +1,50 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2010.10.20.03.28.50;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.20.02.09.24;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@initial
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@CFLAGS=-Wall -std=gnu99
+CC=gcc
+
+filecopy : filecopy.o
+
+clean : 
+	rm -f filecopy.o test.sh makefile filecopy t1.txt t2.txt
+
+test : filecopy.c test.sh t1.txt
+	./test.sh
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d9 1
+a9 1
+test : estat.c test.sh t1.txt
+@

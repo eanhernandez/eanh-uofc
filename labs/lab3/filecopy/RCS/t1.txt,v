@@ -1,0 +1,47 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2010.10.20.15.13.06;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.20.02.10.28;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@initial
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@NEW FIRST LINE
+this is the text of the test file line 1
+this is the text of the test file line 2
+ANOTHER NEW LINE
+this is the text of the test file line 3
+this is the text of the test file line 4
+this is the text of the test file line 5
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+d4 1
+@

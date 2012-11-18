@@ -1,0 +1,6 @@
+Ean Hernandez cspp510881 10/13/2010
+
+make -f makefile1 install
+make -f makefile2
+
+

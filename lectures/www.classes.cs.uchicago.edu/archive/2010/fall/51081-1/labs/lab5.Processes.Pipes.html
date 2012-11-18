@@ -1,0 +1,535 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+  <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]">
+  <title>Unix Systems Programming: Lab 5</title>
+
+
+</head>
+
+
+<body>
+
+<h1>Unix Systems Programming: Lab 5</h1>
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#990000"><b>Wednesday, November 10, 2010 @ 5:00
+pm<!--EX1: Monday, November 7, 2005 @5:00 pm; EX2,EX3: Friday,
+November 18, 2006--></b></font>.
+&nbsp;<br>
+
+<span style="font-style: italic; font-weight: bold;"></span><br>
+
+<hr width="100%"> <br>
+
+&nbsp;<b>PURPOSE AND RATIONALE</b><br>
+
+<br>
+
+The purpose of this lab is to allow students to become comfortable with
+the following fundamental Unix system calls: <br>
+
+<ul>
+
+  <li>system</li>
+
+  <li>exec</li>
+
+  <li>fork </li>
+
+</ul>
+
+as well with the utilization of Unix pipes, named and unnamed.<br>
+
+<br>
+
+<b>PRIMARY RESOURCES:</b><br>
+
+<br>
+
+<a href="../LabFAQ/FAQ.html#lab5">FAQ</a>
+(submission instructions and other useful stuff)<br>
+
+<br>
+
+You should refer to the required reading sections of the assigned texts
+in order to accomplish this lab.<br>
+
+<br>
+
+If possible, you should ssh into the cluster to perform all lab
+activities.&nbsp;
+&nbsp;
+<h4>README</h4>
+
+<ol>
+
+  <li> If you are not in our course email list, please subscribe
+to the cspp51081 email list here: <a href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a>
+;</li>
+
+
+  <li>Before starting, please reviews lecture5 note carefully,
+for each
+part of lab, there is also specified reading assignment; </li>
+
+  <li>Please pay attention to "DELIVERABLES" instruction in each
+part; </li>
+
+  <li> Turn the lab assignment in by email to the grader by the
+due date.</li>
+
+</ol>
+
+<h4>LAB 5</h4>
+
+<ol>
+
+  <li> Your own simple shell -- gosh (Grand Ole SHell) <br>
+
+    <br>
+
+The purpose of this part is to write your own shell in C.&nbsp;
+This simple
+project is designed to give the programmer a working knowledge of input
+string
+processing, fork/exec procedures.
+    <p>We have provided you with a simple <a href="lab5/gosh_template.tar.gz">
+shell template</a> that you can choose to work from.&nbsp;
+You can compile
+the shell using the following command assuming you've untarred the
+package
+and entered the gosh_template subdirectory: </p>
+
+    <pre>gcc -I./ gosh_template.c -o gosh<br></pre>
+
+The project is divided into discrete steps that you can
+follow.&nbsp; Each
+step will define a test that you can run and expected
+behaviour.&nbsp; Please
+make your shell follow this behaviour.
+    <p><b><u>Deliverables</u></b>: A tar
+file that contains only the following: </p>
+
+    <ol>
+
+      <li> all source programs (*.h and *.c)</li>
+
+      <li>a makefile that compiles and builds your shell program<br>
+
+      </li>
+
+      <li> a text file that shows the output of your shell for
+each problem,
+in the way done in the examples. It can be a transcript generated with
+the
+"<tt>script</tt>" command.</li>
+
+    </ol>
+
+    <p></p>
+
+    <b><u>Step 1:</u></b> <u>Input
+Processing Part 1</u> <br>
+
+Every good shell project starts with a prompt.&nbsp; A prompt is
+just a string
+printed on each line on which you can enter a command.&nbsp; Make
+your shell
+print the prompt and take input from user in an infinite loop. Once you
+have
+received a line of input, split it into one array of character pointers
+by
+spaces.&nbsp; If the user enters the special string '<tt>exit</tt>',
+exit
+the program.&nbsp; If the user just enters '\n', the shell should
+do nothing
+but print the prompt on a new line.&nbsp; In the example bellow, c1
+stands
+for command 1 and 0, 1, 2, ...i, stand for the ith group of characters
+arguments).
+NOTE: we do not need consider the situation about pipe.
+    <p><tt>gosh&gt; ls -a -l -d /etc</tt> <br>
+
+    <tt>c1 0: ls</tt> <br>
+
+    <tt>c1 1: -a</tt> <br>
+
+    <tt>c1 2: -l</tt> <br>
+
+    <tt>c1 3: -d</tt> <br>
+
+    <tt>c1 4: /etc</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+    <tt>gosh&gt; exit</tt> <br>
+
+    <tt>hangao@gawaine:~/cspp51081/LAB4$</tt> <br>
+
+&nbsp; </p>
+
+    <p><b><u>Step 2:</u></b> <u>Fork/Exec</u>
+    <br>
+
+Write a simple <tt>fork/execvp</tt> procedure to execute
+command c1 in a
+child process.&nbsp; If the command inputted does not exist, the
+child should
+print an error message and exit. The relevant&nbsp; examples (C
+code) from
+the book are here: create a child process with fork and <a href="CODE/BeginningLinuxProgramming/chapter10/wait.c">
+wait</a> for its termination, <a href="CODE/BeginningLinuxProgramming/chapter10/pexec.c">
+replace</a> a process image (details: BLP, chapter 10). </p>
+
+    <p><tt>gosh&gt; ls -l /etc/passwd</tt> <br>
+
+    <tt>c1 0: ls</tt> <br>
+
+    <tt>c1 1: -l</tt> <br>
+
+    <tt>c1 2: /etc/passwd</tt> <br>
+
+    <tt>Running Command</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>lrwxrwxrwx 1 root root 14 Jul 6 1999 /etc/passwd
+-&gt; ./local/passwd</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>Command Returned Exit Code 0</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+&nbsp; </p>
+
+    <p> </p>
+
+    <p><b><u>Step 3:</u></b> <u>Internal
+Commands</u> <br>
+
+Add support for internal shell commands: <tt>cd</tt> and <tt>pwd</tt>.
+    </p>
+
+    <p> <tt>gosh&gt; cd /usr/lib </tt> <br>
+
+    <tt>c1 0: cd</tt> <br>
+
+    <tt>c1 1: /usr/lib</tt> <br>
+
+    <tt>Running Command</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>change dir: success</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>Command Returned Exit Code 0</tt> <br>
+
+    </p>
+
+    <p></p>
+
+    <tt>gosh&gt; pwd </tt> <br>
+
+    <tt>c1 0: pwd</tt> <br>
+
+    <tt>Running Command</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>/usr/lib</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>Command Returned Exit Code 0</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+&nbsp;
+    <p></p>
+
+    <p><b><u>Step 4:</u></b> <u>Environment
+Variables</u> <br>
+
+Add support for environment variables. </p>
+
+    <p> <tt>gosh&gt; MYVAR='All work and no play makes
+Jack a dull boy' </tt> <br>
+
+    <tt>c1 0: MYVAR='All work and no play makes Jack a dull boy'</tt>
+    <br>
+
+    <tt>Running Command</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>define new variable: success</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>Command Returned Exit Code 0</tt> <br>
+
+    </p>
+
+    <p></p>
+
+    <tt>gosh&gt; echo $MYVAR </tt> <br>
+
+    <tt>c1 0: echo</tt> <br>
+
+    <tt>c1 1: $MYVAR</tt> <br>
+
+    <tt>Running Command</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>All work and no play makes Jack a dull boy</tt> <br>
+
+    <tt>---------------</tt> <br>
+
+    <tt>Command Returned Exit Code 0</tt> <br>
+
+    <tt>gosh&gt;</tt> <br>
+
+&nbsp;
+    <p></p>
+
+    <p> </p>
+
+  </li>
+
+  <li>Unnamed Pipes<br>
+
+    <p><b><u>Step 1:</u></b> <u>background</u>
+    </p>
+
+    <p> A pair of related processes can use an 'unnamed pipe' to
+pass information between them. When a pipe is created, the operating
+system sets up two file
+descriptors: one that can be read from and one that can be written to.
+Any
+data put into the pipe (by writing to the 'write' side of the file
+descriptor)
+by one process can be grabbed by another (by reading from the 'read'
+file
+descriptor). One common use of this function/structure is to create a
+pipe
+and write the stdout from one process to the pipe's write file
+descriptor
+and read from the pipe's read file descriptor to another program's
+stdin. We use this system all of the time: </p>
+
+    <pre>cat /etc/passwd | grep root<br></pre>
+
+    <p> We are 'piping' the stdout from 'cat /etc/passwd' to the
+stdin of 'grep root'. The program that usually sets up this pipe for
+you is the user
+shell. The program flow is as follows: </p>
+
+    <pre>program has two commands to run<br>program sets up a pipe using 'pipe()'<br>program forks<br>the parent closes the pipe writer file descriptor<br>the parent runs 'dup2()' to duplicate it's stdin to the pipe's reader<br>the child closes the pipe reader file descriptor<br>the child runs 'dup2()' to duplicate it's stdout to the pipe's writer<br>both parent and child run 'execvp()' or similar to run the commands<br></pre>
+
+    <p><b><u>Step 2:</u></b> <u>my_upipe</u>
+    </p>
+
+    <p> In this portion of the lab project, you will write a
+simple program that creates a pipe between two processes given on the
+command line. The
+syntax for this program is as follows: </p>
+
+    <pre>./my_upipe "cat /etc/passwd" "grep root"<br></pre>
+
+    <p>You may want to borrow code from your gosh project to
+handle the tokenizing
+of the two commands given. We will test the following commands on CS
+linux
+boxes: </p>
+
+    <pre>gawaine:$ ./my_upipe "cat /etc/services" "more"<br># /etc/services:<br># $Id: services,v 1.4 1997/05/20 19:41:21 tobias Exp $<br>#<br># Network services, Internet style<br>...<br>...<br>--More--<br>...<br>...<br><br>gawaine:$ ./my_upipe "cat /etc/passwd" "grep root"<br>root:x:0:0:Super-User:/:/bin/bash<br><br>gawaine:$ ./my_upipe "ls -a -l /usr/bin" "wc"<br> 501 4668 32853<br></pre>
+
+    <p> </p>
+
+    <b><u>Step 3:</u></b> <u>help</u><br>
+
+    <p> </p>
+
+There are example programs that use 'pipe' in the BLP. Also, you can
+look
+in /home/mark/pub/51081/pipes for some example code.<br>
+
+    <p> </p>
+
+    <b><u>Step 4:</u></b> <u>Deliverables</u><br>
+
+    <p> </p>
+
+A tar file that contains all code: *.c and *.h (if necessary) and a
+script
+file shows how your codes work. </li>
+
+  <p> </p>
+
+  <li>Named Pipes<br>
+
+    <p><b><u>Step 1:</u></b> <u>background</u>
+    </p>
+
+    <p> </p>
+
+    <p> A pair of unrelated processes can use a 'named pipe' to
+pass information between them. Unlike 'unnamed pipes', however, 'named
+pipes' are accessed
+as a file on the file system. This allows a situation where two
+processes
+started in separate shells can communicate with eachother through a
+'named
+pipe' on the file system. A named pipe, or FIFO, can be created using
+the
+'mkfifo()' function. It can be removed (like any other file on the file
+system) using the 'unlink()' function. Once a named pipe file exists,
+programs
+can open it like they would other files and then use the file
+descriptor
+obtained to perform regualar file IO operations on the (read, write,
+close...). </p>
+
+    <p><b><u>Step 2:</u></b> <u>my_npipe</u>
+    </p>
+
+    <p> </p>
+
+You will write two simple programs 'my_npipe_reader.c' and
+'my_npipe_writer.c'
+that use a named pipe to communicate. The 'my_npipe_reader' program
+will
+set up a named pipe using 'mkfifo()', open it read only, and read
+strings
+from it until it receives the string 'exit'. The writer will open the
+named
+pipe file, read strings from the user and write them to the named pipe.
+When the user enters 'exit', the program will write the string to the
+pipe
+and then exit. Execution should look something like this (note that you
+must
+start the reader first):
+    <pre>reader:<br>gawaine:$ ./my_npipe_reader<br>Creating named pipe: /tmp/mypipe<br>Waiting for input...Got it: 'hello world'<br>Waiting for input...Got it: 'foober goober'<br>Waiting for input...Got it: 'exit'<br>Exiting<br><br><br>writer:<br>gawaine:$ ./my_npipe_writer<br>Opening named pipe: /tmp/mypipe<br>Enter Input: hello world<br>Writing buffer to pipe...done<br>Enter Input: foober goober<br>Writing buffer to pipe...done<br>Enter Input: exit<br>Writing buffer to pipe...done<br>Exiting<br></pre>
+
+    <p> Note that the 'my_npipe_reader' and 'my_npipe_writer'
+need to be executed
+in separate shells at the same time. The reader stops at 'Waiting for
+input...'
+until it receives data from the pipe (the read completes). </p>
+
+    <p><b><u>Step 3:</u></b> <u>Help</u>
+    </p>
+
+    <p> </p>
+
+    <p> Use BLP as a reference, there are many good code examples
+for named
+pipe usage. Also, see /home/mark/pub/51081/pipes for example code. </p>
+
+    <p> </p>
+
+    <b><u>Step 4:</u></b> <u>Deliverables</u><br>
+
+    <p> </p>
+
+A tarball that contains all code: *.c and *.h (if necessary),
+makefiles,
+and a script file shows how your code works. </li>
+
+  <p> </p>
+
+  <h4>MARKS DISTRIBUTION</h4>
+
+  <ol>
+
+    <li>Excercise 1:</li>
+
+    <ul>
+
+      <li>4 points: input processing </li>
+
+      <br>
+
+      <li>3 points: Fork/Exec </li>
+
+      <br>
+
+      <li>2 points: Correct Execution </li>
+
+      <br>
+
+    </ul>
+
+    <br>
+
+    <li>Excercise 2:</li>
+
+    <ul>
+
+      <li>6 points: Unnamed pipes code </li>
+
+      <br>
+
+      <li>2 points: Correct Execution </li>
+
+      <br>
+
+    </ul>
+
+    <br>
+
+    <li>Excercise 3:</li>
+
+    <ul>
+
+      <li>6 points: Named pipes code </li>
+
+      <br>
+
+      <li>2 points: Correct Execution </li>
+
+      <br>
+
+    </ul>
+
+    <br>
+
+Total Marks: 25
+  </ol>
+
+  <p> </p>
+
+  <hr width="100%">
+  <address> </address>
+
+  <address><a href="mailto:soner@cs.uchicago.edu">Atilla
+Soner Balkir</a></address>
+
+</ol>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+</body>
+</html>

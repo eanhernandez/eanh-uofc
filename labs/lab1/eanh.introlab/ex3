@@ -1,0 +1,14 @@
+Ean Hernandez cspp51081 lab1 10/06/2010
+
+3. stat indicates that this is a 4096k directory in which the owner may
+read write and execute, group members may read and execute, and everyone
+may read and execute.  It was last modified on january 27 this year,
+and was last accessed on the 6th of this month.  ls -al | grep '^d' |
+nl  shows there are 29 directories in ~mark/pub/51081 plus the . and
+.. directories representing 51081 and it's parent pub.  Subtracting this
+amount from the total number of files returned by ls -al | nl gives us
+71-2-29 = 40 files.
+
+
+
+

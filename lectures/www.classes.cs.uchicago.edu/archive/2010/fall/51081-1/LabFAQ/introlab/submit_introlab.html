@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Submitting introductory lab</title>
+  <meta content="text/html; charset=iso-8859-1"
+ http-equiv="Content-Type">
+</head>
+<body>
+<h2>How to Submit Introductory Lab</h2>
+<ol>
+  <li>Create a directory:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>username</em><font
+ face="Courier New, Courier, mono">.introlab</font><br>
+  </li>
+  <li>There will be seven (or three) files in this directory: You must have your
+name on the first line of each file.</li>
+  <ul>
+    <li><font face="Courier New, Courier, mono">ex1</font> : Your
+answer to the fourth part of Exercise 1.</li>
+    <li><font face="Courier New, Courier, mono">ex2.1</font> : The
+commandline and output to Exercise 2, part 1.</li>
+    <li><font face="Courier New, Courier, mono">ex2.2</font> : The
+commandline and output to Exercise 2, part 2.</li>
+    <li><font face="Courier New, Courier, mono">ex2.3</font>:
+      <ul>
+        <li>the initial mask</li>
+        <li>how you changed it</li>
+        <li>show that people in your user group don't have read
+permissions for a new file you're creating. </li>
+        <li><strong>YOU DO NOT NEED TO CHANGE YOUR</strong> <font
+ face="Courier New, Courier, mono">.bashrc</font> <strong>FILE</strong></li>
+        <br>
+      </ul>
+    </li>
+    <li><font face="Courier New, Courier, mono">ex2.4</font> : The
+commandline and output to Exercise 2, part 4.</li>
+    <li><font face="Courier New, Courier, mono">ex2.5</font> : The
+commandline and output to Exercise 2, part 5.</li>
+    <li><font face="Courier New, Courier, mono">ex3</font> : Your
+answer to 3.<br>
+<BR>
+(Alternatively, you may submit a single transcript file named <font face="Courier New, Courier, mono">ex2</font> : a session illustrating all five items above)<BR><BR>
+    </li>
+  </ul>
+  <li>When you are finished with your directory you will create a
+compressed archive file using <font face="Courier New, Courier, mono">tar</font>
+(this utility stores your directory as a single file, then compresses
+its size.)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">tar -czvf </font>&nbsp; <em>username</em><font
+ face="Courier New, Courier, mono">.introlab.tgz</font> &nbsp;&nbsp;<em>username</em><font
+ face="Courier New, Courier, mono">.introlab</font> <br>
+  </li>
+
+
+  <li>You will email your file to me as an attachment. If you are using mutt,
+  you can send it by using the command<br><br> mutt -s "introlab submission from
+  yourname" -a ./username.introlab.tgz  bsm@cs.uchicago.edu<br>
+    <br>
+  </li>
+  <table border="1" width="75%">
+    <tbody>
+      <tr>
+        <td>To</td>
+        <td>&nbsp;bsm@cs.uchicago.edu</td>
+      </tr>
+      <tr>
+        <td>Attachment</td>
+        <td> &nbsp;<em>username</em><font
+ face="Courier New, Courier, mono">.introlab.tgz</font></td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td>&nbsp;introlab</td>
+      </tr>
+    </tbody>
+  </table>
+
+<!--
+This was the saving method
+  <li>Do the following:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">chmod 440  </font>&nbsp; <em>username</em><font
+ face="Courier New, Courier, mono">.introlab.tgz</font> &nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">cp  </font>&nbsp; <em>username</em><font
+ face="Courier New, Courier, mono">.introlab.tgz</font> &nbsp;&nbsp; <font
+ face="Courier New, Courier, mono">~asrabaig/submit/  </font>&nbsp; <BR><BR>
+ Make sure that your work is saved in ~asrabaig/submit/
+  </li>
+-->
+
+</ol>
+</body>
+</html>

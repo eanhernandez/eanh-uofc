@@ -1,0 +1,467 @@
+head	1.10;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.10
+date	2010.10.20.21.42.25;	author eanh;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2010.10.20.21.01.32;	author eanh;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2010.10.20.20.26.54;	author eanh;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2010.10.20.20.04.53;	author eanh;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2010.10.17.03.12.43;	author eanh;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2010.10.17.01.10.53;	author eanh;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2010.10.17.00.18.56;	author eanh;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2010.10.16.02.53.01;	author eanh;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2010.10.16.01.42.59;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.16.01.25.30;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@initial check in
+@
+
+
+1.10
+log
+@final.
+@
+text
+@/*
+
+Ean Hernandez - username: eanh - cspp51081 - lab 3 - 10-20-2010
+
+estat.c, a program that does some of what stat does.
+
+*/
+
+#define _GNU_SOURCE
+#include <sys/stat.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pwd.h>
+#include <grp.h>
+#include <string.h>
+
+char* getPerm(char n);
+void printSymlink(char** s);
+void printTimeData(time_t t,long ns, char e);
+
+int main(int argc, char* args[])
+{
+   struct stat s;
+   lstat(args[1],&s);
+   //char buffer[256];
+
+   // prints file line
+   printf("  file: `%s'", args[1]);
+   // handles extra details for symlinks
+   if (S_ISLNK(s.st_mode)){ printSymlink(args); } printf("\n");
+
+   // prints size, blocks, io blocks
+   printf("  size: %ld          ", (long) s.st_size);
+   printf("blocks: %lld          ", (long long) s.st_blocks);
+   printf("io block: %ld      ", (long) s.st_blksize);
+
+   // this finds out what file type we are dealing with, prints it,
+   // and then takes the opportunity to set ft with this data so
+   // we can correctly display it later
+   char ft ='?';              
+   if (S_ISDIR(s.st_mode)) {printf("directory\n"); ft='d';}
+   if (S_ISLNK(s.st_mode)) {printf("symbolic link\n"); ft='l';}
+   if (S_ISREG(s.st_mode)) {printf("regular file\n"); ft='-';}
+
+   // prints device, inode, links line
+   printf("device: %xh/%dd       ",(int)s.st_dev,(int)s.st_dev);
+   printf("Inode: %ld      ", (long) s.st_ino);
+   printf("links: %ld\n", (long) s.st_nlink);
+
+   // stores mode in the string Perm so that we can work with it
+   char *Perms; asprintf(&Perms, "%lo", (unsigned long)s.st_mode);
+   // prints last 4 characters of the mode for the access field
+   printf("access: (%c%c%c%c/",
+      Perms[strlen(Perms)-4], 
+      Perms[strlen(Perms)-3], 
+      Perms[strlen(Perms)-2], 
+      Perms[strlen(Perms)-1]
+      );
+
+   // prints file type (l,d,-)
+   printf("%c",ft);           
+   // uses the last 3 chars of the mode to get wrx representation
+   printf("%s",getPerm(Perms[strlen(Perms)-3]));
+   printf("%s",getPerm(Perms[strlen(Perms)-2]));
+   printf("%s",getPerm(Perms[strlen(Perms)-1]));
+   printf(")   ");
+
+   // print the owners username
+   struct passwd* userInfo;
+   userInfo = getpwuid (s.st_uid);
+   printf("uid: (%d   /   %s)",(int) s.st_uid, userInfo->pw_name);
+
+   // print the owners group
+   struct group * groupInfo;   
+   groupInfo = getgrgid (s.st_gid);
+   printf("    gid: (%ld  /  %s)", (long) s.st_gid,groupInfo->gr_name); printf("\n");
+
+   // prints the access, modify and change times, formatted
+   printTimeData(s.st_atime,s.st_atim.tv_nsec, 'a');
+   printTimeData(s.st_mtime,s.st_mtim.tv_nsec, 'm');
+   printTimeData(s.st_ctime,s.st_ctim.tv_nsec, 'c');
+
+   exit(0);
+}
+
+// this function takes a numeric char representing a particular position 
+// of the mode and returns the appropriate alphanumeric permissions
+char* getPerm(char n)
+{
+   if (48==(int)n) { return "---";}
+   if (49==(int)n) { return "--x";}
+   if (50==(int)n) { return "-w-";}
+   if (51==(int)n) { return "-wx";}
+   if (52==(int)n) { return "r--";}
+   if (53==(int)n) { return "r-x";}
+   if (54==(int)n) { return "rw-";}
+   if (55==(int)n) { return "rwx";}
+   return "!!!";  // error case
+}
+
+// this function looks up the file pointed to by the symlink named s[1]
+// and prints an arrow and the file's name for the symlink case
+void printSymlink(char** s)
+{
+   struct stat s2;
+   char buffer2[25];
+   stat(s[1],&s2);
+   printf(" --> ");
+   readlink(s[1], buffer2, 25);
+   printf("`%s'",buffer2);
+}
+
+// this function takes in a time_t and long representing an access/modify/change
+// time and a char representing the event (a/m/c) and prints it the same way that 
+// stat does
+void printTimeData(time_t t,long ns, char e)
+{
+   char buffer[256];
+   switch (e)
+   {
+      case 'a' : printf("access: "); break;
+      case 'm' : printf("modify: "); break;
+      case 'c' : printf("change: "); break;
+      default  : printf("??????: "); break;
+   }
+
+   strftime (buffer, 256,"%Y-%m-%d %H:%M:%S.", localtime(&t)); printf(buffer);
+   printf("%09ld",ns);
+   strftime(buffer, 256," %z",localtime(&t));printf(buffer);
+   printf("\n");
+}
+
+@
+
+
+1.9
+log
+@final clean ups, fixed zero padding in timestamps, removed unused libraries
+@
+text
+@a17 2
+//#include <dirent.h>
+//#include <sys/types.h>
+@
+
+
+1.8
+log
+@more clean up, this ver has commented out orig versions of the time formatting, wanna keep jik!
+@
+text
+@a9 1
+#include <sys/types.h>
+d18 2
+a19 1
+#include <dirent.h>
+d23 1
+a23 1
+void printTimeData(time_t t,long ns);
+d82 4
+a85 19
+   printTimeData(s.st_atime,s.st_atim.tv_nsec);
+   printTimeData(s.st_mtime,s.st_mtim.tv_nsec);
+   printTimeData(s.st_ctime,s.st_ctim.tv_nsec);
+
+/*
+   strftime (buffer, 256,"access: %Y-%m-%d %H:%M:%S.", localtime(&s.st_atime)); printf(buffer);
+   printf("%ld",s.st_atim.tv_nsec);
+   strftime(buffer, 256," %z",localtime(&s.st_atime));printf(buffer);
+   printf("\n");
+
+   strftime (buffer, 256,"modify: %Y-%m-%d %H:%M:%S.", localtime(&s.st_mtime)); printf(buffer);
+   printf("%ld",s.st_mtim.tv_nsec);
+   strftime(buffer, 256," %z",localtime(&s.st_mtime));printf(buffer);
+   printf("\n");
+
+   strftime (buffer, 256,"change: %Y-%m-%d %H:%M:%S.", localtime(&s.st_ctime)); printf(buffer);
+   printf("%ld",s.st_ctim.tv_nsec);
+   strftime(buffer, 256," %z",localtime(&s.st_ctime));printf(buffer);
+   printf("\n");
+d87 1
+a87 1
+*/
+d90 2
+d102 1
+a102 2
+   return "!!!";
+
+d105 2
+d117 4
+a120 1
+void printTimeData(time_t t,long ns)
+d122 8
+d131 2
+a132 3
+   char buffer[256];
+   strftime (buffer, 256,"access: %Y-%m-%d %H:%M:%S.", localtime(&t)); printf(buffer);
+   printf("%ld",ns);
+d135 1
+a136 3
+  
+}
+;
+@
+
+
+1.7
+log
+@works, now cleaning up
+@
+text
+@d23 1
+a23 1
+
+d29 1
+a29 3
+   char buffer[256];
+   char ft ='?';                //file type
+   char *oPermissions;
+d41 4
+a44 1
+   // prints the type of file: dir, symlink, regular file
+d54 16
+a69 8
+
+   asprintf(&oPermissions, "%lo", (unsigned long)s.st_mode);
+   printf("access: (%c%c%c%c/",oPermissions[strlen(oPermissions)-4], oPermissions[strlen(oPermissions)-3], oPermissions[strlen(oPermissions)-2], oPermissions[strlen(oPermissions)-1]);
+  
+   printf("%c",ft);
+   printf("%s",getPerm(oPermissions[strlen(oPermissions)-3]));
+   printf("%s",getPerm(oPermissions[strlen(oPermissions)-2]));
+   printf("%s",getPerm(oPermissions[strlen(oPermissions)-1]));
+d72 1
+d75 1
+d77 1
+d80 5
+d86 1
+a86 3
+   printf("uid: (%d   /   %s)",(int) s.st_uid, userInfo->pw_name);
+   printf("    gid: (%ld  /  %s)", (long) s.st_gid,groupInfo->gr_name); printf("\n");
+   
+d102 1
+a102 2
+
+
+d128 13
+@
+
+
+1.6
+log
+@more additions, still working on permissions
+@
+text
+@d1 8
+d19 6
+d28 1
+a28 1
+   stat(args[1],&s);
+d30 7
+d38 1
+a38 1
+   printf("  file: '%s'\n", args[1]);
+d43 4
+a46 10
+   switch (s.st_mode & S_IFMT) {
+   case S_IFBLK:  printf("block device\n");            break;
+   case S_IFCHR:  printf("character device\n");        break;
+   case S_IFDIR:  printf("directory\n");               break;
+   case S_IFIFO:  printf("FIFO/pipe\n");               break;
+   case S_IFLNK:  printf("symlink\n");                 break;
+   case S_IFREG:  printf("regular file\n");            break;
+   case S_IFSOCK: printf("socket\n");                  break;
+   default:       printf("unknown?\n");                break;
+   }
+d48 2
+a49 1
+   printf("device: ??        ");
+a53 2
+   char *oPermissions;
+   
+d55 7
+a61 7
+   for (int i=1;i<strlen(oPermissions);i++)
+   {
+      printf(&oPermissions[i]);
+      printf("\n");
+   }
+
+   printf("access: %lo     ", (unsigned long) s.st_mode);
+d71 42
+a112 3
+   strftime (buffer, 256, "access: %Y-%m-%d %H:%M:%S.????????", localtime(&s.st_ctime)); printf(buffer); printf("%ld",-timezone/3600); printf("\n");
+   strftime (buffer, 256, "access: %Y-%m-%d %H:%M:%S.????????", localtime(&s.st_atime)); printf(buffer); printf("%ld",-timezone/3600); printf("\n");
+   strftime (buffer, 256, "access: %Y-%m-%d %H:%M:%S.????????", localtime(&s.st_mtime)); printf(buffer); printf("%ld",-timezone/3600); printf("\n");
+a113 1
+              
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d1 1
+d10 1
+d15 5
+a19 4
+   
+   printf("file: '%s'\n", args[1]);
+   printf("size: %ld           ", (long) s.st_size);
+   printf("blocks: %lld       ", (long long) s.st_blocks);
+d22 11
+a32 12
+   printf("filetype: ");
+/*   switch (s.st_mode & S_IFMT) {
+      case S_IFBLK:  printf("block device\n");            break;
+      case S_IFCHR:  printf("character device\n");        break;
+      case S_IFDIR:  printf("directory\n");               break;
+      case S_IFIFO:  printf("FIFO/pipe\n");               break;
+      case S_IFLNK:  printf("symlink\n");                 break;
+      case S_IFREG:  printf("regular file\n");            break;
+      case S_IFSOCK: printf("socket\n");                  break;
+      default:       printf("unknown?\n");                break;
+      }                                                                                             }
+*/
+d34 1
+a34 1
+   printf("I-node: %ld      ", (long) s.st_ino);
+d36 11
+d56 4
+a59 4
+   printf("    gid: (%ld  /  %s)", (long) s.st_gid,groupInfo->gr_name);
+   printf("\naccess:       %s", ctime(&s.st_ctime));
+   printf("modify:         %s", ctime(&s.st_atime));
+   printf("change:   %s", ctime(&s.st_mtime));
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d17 15
+a31 3
+   printf("io block: ???      ");
+   printf("filetype: ???       \n ");
+   printf("device: ???        ");
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d7 2
+a8 1
+
+d22 4
+a25 1
+   printf("access: %lo \n", (unsigned long) s.st_mode);
+d27 2
+d30 3
+a32 3
+   printf("uid: (...)           ");
+   printf("gid: (...)\n");
+   printf("access:       %s", ctime(&s.st_ctime));
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@a0 1
+#include <stdio.h>
+d3 3
+d10 19
+a28 2
+   printf("Hiya.  I'm estat.\n");
+   printf("Examining: %s.\n", args[1]);
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d8 2
+a9 1
+   printf("Hiya.  I'm estat.");
+@

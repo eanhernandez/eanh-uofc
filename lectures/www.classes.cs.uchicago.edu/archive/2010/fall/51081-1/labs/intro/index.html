@@ -1,0 +1,168 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+       
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+       
+  <meta name="GENERATOR"
+ content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>Unix Systems Programming: Lab 1</title>
+</head>
+  <body>
+ 
+<h1>Unix Systems Programming: Introductory Lab </h1>
+ Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font
+ color="#cc0000">Wednesday, October 6, by 5:00 pm</font></b>.<br>
+ 
+<hr width="100%"><br>
+<b>PURPOSE AND RATIONALE</b><br>
+<br>
+The purpose of this lab is to quickly get students up to speed with basic
+usage of the Unix development environment, as a preparation for all future
+lab activities.<br>
+<br>
+<b>PRIMARY RESOURCES:</b><br>
+<br>
+<a href="../../LabFAQ/FAQ.html#introlab">FAQ</a>(submission instructions and other useful stuffs)<br>
+You should refer to relevant sections of the man pages for assistance for
+this lab, in addition to materials in your assigned primary texts for this
+week.
+<br>
+If possible, you should ssh into the cluster to perform all lab activities.<br>
+ 
+<h4>README</h4>
+ 
+<ol>
+   <li>If you are not in our course email list, please subscribe to the cspp51081 
+email list here:<a
+ href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a></li>
+   <li>Turn the lab assignment in by email to the grader by the due date
+above.</li>
+   <li>For printing out your documents, you might find the following commands 
+useful during your year(s) in this department:</li>
+   
+  <ol>
+     <li><tt>lpr</tt> -&nbsp; off line print. Note that this command is called 
+when you print from <tt>acroread</tt>&nbsp; (for .pdf files) or <tt>gv</tt>
+ (for .ps files)</li>
+     <li><tt>lpq</tt> - shows the printer queue</li>
+     <li><tt>lprm</tt> - removes jobs from the printer queue</li>
+     <li><tt>enscript</tt> - converts text files to PostScript (useful when 
+you want to print out text files)</li>
+   
+  </ol>
+  <li>Make sure you have read the Homework Style Guidelines for submission.<br>
+  </li>
+ 
+</ol>
+ 
+<h4>Introductory LAB</h4>
+ 
+<ol>
+   <li>In your home directory create the subdirectory <tt>~/cspp51081/labs/lab1</tt>
+. (Use multiple mkdir commands or consult the -p option for mkdir in the
+man page for mkdir).</li>
+   
+  <ol>
+     <li><tt>cd ~/cspp51081/labs/lab1</tt></li>
+     <li>Copy or create a file named <b><tt>myfile</tt></b> into <tt>~/cspp51081/labs/lab1</tt>
+ (if you create it, type something into it). &nbsp;For information on how
+to create a quick empty file, man touch.</li>
+     <li>Create a soft link <b>soft_link</b> and a hard link <b>hard_link</b>
+ to that file.</li>
+     <li>Based on the output returned by <tt>stat</tt> and <tt>ls</tt> commands 
+(using all relevant options),&nbsp; explain in detail (but briefly) the differences 
+between the three files.</li>
+   
+  </ol>
+   <li>&nbsp;Read the <tt>man</tt> pages for the following commands:</li>
+   
+  <ul>
+     <li><tt>script</tt></li>
+     <li><tt>finger, who, w</tt></li>
+    <li><small>touch</small><br>
+    </li>
+     <li><tt>top</tt></li>
+    <li><small>mkdir</small><br>
+    </li>
+     <li><tt>umask</tt>: <tt>umask [value]</tt> (shell built in command)</li>
+     <li>text utilities: <tt>sort, uniq, tr, expand, unexpand, cut, grep</tt>
+.</li>
+   
+  </ul>
+ The objective of this exercise is to demonstrate in a reasonably small (the 
+smaller the better) number of commands that you understood how to use the 
+commands above and when they are useful.<br>
+ Create a transcript that shows you understand the commands listed above.&nbsp; 
+By transcript, I mean a file that shows the output of your session.&nbsp; 
+See <a
+ href="introlab.log">this 
+example</a>.&nbsp; Yours will be longer.&nbsp; You can use the <tt>script</tt>
+ command to create the transcript, or you can cut and paste, whatever works 
+for you.&nbsp; In your transcript file please show:   
+  <ol>
+     <li>How many John's (first name) have user accounts on the department's computers 
+[a single pipeline of 3 processes]. Hint: use <tt>grep, </tt>also look at 
+      <tt>wc</tt>.</li>
+     <li>Show the jobs in the printer queue. [3 characters if you're lucky] 
+(What printer is your default printer, by the way? See it also with <tt>echo 
+$PRINTER</tt>. No need to show this in the transcript)</li>
+     <li>Change your file permission mask such that by default your colleagues 
+do not have read permissions for your newly created files. Please show in 
+the transcript file the following:</li>
+     
+    <ul>
+       <li>the initial mask</li>
+       <li>how you changed it</li>
+       <li>show that people in your user group don't have read permissions 
+for a new file you're creating.<br>
+Change the umask permanently by placing the umask ... command in your .bash_profile
+file.<br>
+      </li>
+     
+    </ul>
+     <li>List the PIDs of all processes running as root on your computer
+on a line, separated by commas. E.g.,: 1,2,3,4,5,657,658, ... Use pipes to
+create a one-line command that accomplishes this. You'll need some of the
+text processing tools presented in class. Hint: <tt>man ps (-a and -x flags),
+man tr</tt>.</li>
+     <li>List the usernames and names of the people logged on <tt>foster.cs.uchicago.edu</tt>
+. (<u>NOTE</u>:&nbsp; you may find the <small>command</small> option of ssh
+helpful.) The list returned should be sorted, should not contain duplicates
+(e.g., same user listed multiple times) and should have the following format:</li>
+     
+    <ol>
+       
+      <ol>
+         <tt>1 &lt;username1&gt; &lt;name1&gt;</tt><br>
+         <tt>2 &lt;username2&gt; &lt;name2&gt;</tt><br>
+         <tt>3 &lt;username3&gt; &lt;name3&gt;</tt><br>
+         <tt>...</tt>       
+      </ol>
+     
+    </ol>
+ Hints: use the "<tt>nl</tt>" command to number lines.   
+  </ol>
+   <li>Explain in English what information you can get about ~mark/pub/51081 
+using all (and only) relevant options of <tt>ls</tt> and <tt>stat</tt> commands: 
+(is it a file? a directory? how large? permissions? access info? etc.) Indicate 
+the fields that reveal these pieces of information.</li>
+ 
+</ol>
+ 
+<h2>More information:</h2>
+ <a href="http://www.gnu.org/software/coreutils/manual/coreutils.html">GNU 
+text utilities (renamed "GNU coreutils")</a><br>
+ <a href="http://www.zakon.org/robert/internet/timeline/">Hobbes' Internet 
+Timeline</a> (just for fun)<br>
+&nbsp;     
+<hr width="100%"> 
+<address><br>
+ </address>
+ 
+<address>     <a href="mailto:bsm@cs.uchicago.edu">Brian Martin</a><br>
+  </address>
+    <br>
+</body>
+</html>

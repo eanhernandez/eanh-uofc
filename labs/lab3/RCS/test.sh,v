@@ -1,0 +1,130 @@
+head	1.6;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.6
+date	2010.10.20.17.24.33;	author eanh;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2010.10.20.16.51.42;	author eanh;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2010.10.16.02.36.24;	author eanh;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2010.10.16.02.05.44;	author eanh;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2010.10.16.02.04.40;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.16.01.52.42;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@clear
+
+echo CASE 2: symlink
+echo my stat...
+./estat slink
+echo
+echo real stat...
+stat slink
+echo
+echo CASE 3: hard link
+echo my stat...
+./estat hlink
+echo
+echo real stat...
+stat hlink
+
+
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@a2 7
+echo CASE 1: regular file
+echo my stat...
+./estat estat.c
+echo
+echo real stat...
+stat estat.c
+echo
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d3 1
+d5 1
+d7 2
+a8 1
+./estat estat.c
+d10 3
+a12 1
+echo ----------------------------------------------------------------
+d15 1
+d17 7
+a23 1
+stat estat.c
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d4 1
+d10 1
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d2 2
+d5 4
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 1
+@

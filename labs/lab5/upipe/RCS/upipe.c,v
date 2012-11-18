@@ -1,0 +1,96 @@
+head	1.1;
+access;
+symbols;
+locks
+	eanh:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	2010.11.10.04.48.07;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <string.h>
+
+void get_input(char* foo, char** args);
+int parse_input(char* foo, char** args);
+void show_input(char**a);
+char*line="-----------------------";
+int main() 
+{
+   char* args[80];
+   char foo[80];
+   char foo_copy[80];
+   int exitstatus; 
+   char* cwd;
+   char*to;
+   int p_i=0;
+
+
+   fgets (foo, sizeof(foo), stdin);
+   strcpy(foo_copy,foo);
+   get_input(foo_copy,args);
+   p_i=parse_input(foo,args);
+   printf("Running Command\n%s\n",line);
+   exitstatus = 0;
+
+}
+
+void show_input(char**a)
+{
+   for (i=0;i<sizeof(a);i++)
+   {
+      printf("arg %d: %s\n",i,a(i));
+   }
+}
+
+int parse_input(char*f, char**a)
+{     
+   char* p = strchr(f,'\n');
+   if (p) {*p='\0';}
+
+   if (f[0]=='\0'){return 2;}                            // errant CR   = 2
+   if (strcmp(a[0],"exit")==0){return 1;}                // quitting    = 1
+   if (strcmp(a[0],"cd")==0){return 3;}                  // change dir  = 3
+   if (strcmp(a[0],"pwd")==0){return 4;}                 // pwd request = 4
+   if (strchr(f,'=')){return 5;}                         // =sign,setenv= 5
+   if (strchr(f,'$')){return 6;}                         // $, get env  = 6
+   return 999;                                           // command     = 999
+}
+
+void get_input(char* foo, char** args)
+{
+
+      char* p = strchr(foo,'\n');
+      char* splitter = " =";
+      if (p) {*p='\0';}
+      if (strchr(foo,'\'')){splitter="=";}
+      int i=0;
+      char*token[80];
+      token[0]=strtok(foo,splitter);
+      args[0]=token[0];
+
+      while(token[i] != NULL)
+      {
+         i++;
+         token[i]=strtok(NULL,splitter);
+         args[i]=token[i];
+      }
+}
+@

@@ -1,0 +1,58 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2010.10.20.21.42.46;	author eanh;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2010.10.20.18.17.51;	author eanh;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@clear
+
+echo CASE 1: regular file
+echo my stat...
+./estat estat.c
+echo
+echo real stat...
+stat estat.c
+echo
+echo CASE 4: directory
+echo my stat...
+./estat .
+echo
+echo real stat...
+stat .
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d12 1
+a12 1
+./estat RCS
+d15 1
+a15 1
+stat RCS
+@

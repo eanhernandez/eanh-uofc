@@ -1,0 +1,607 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+  <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+
+  <meta content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]" name="GENERATOR">
+  <title>Unix Systems Programming: Lab 7</title>
+
+
+</head>
+
+
+<body>
+
+<h1>Unix Systems Programming: Lab 7</h1>
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"></span><font color="#990000"><b>Wednesday, November 17, 2010 @ 5:00
+pm</b></font>.<br>
+
+<hr width="100%"> <br>
+
+<h3>Purpose and Rationale</h3>
+
+<p> The purpose of this lab is to introduce students to System V
+IPC
+through
+semaphores, message queues and shared memory.
+</p>
+
+<h3>Resources</h3>
+
+<p><a href="../LabFAQ/FAQ.html#lab7">FAQ</a>
+(submission instructions and other useful stuff)<br>
+
+If you are not in our course email list, please subscribe to the
+cspp51081 email list here:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">
+http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a><br>
+
+You will also find the course <a href="../LabFAQ/FAQ.html#lab7">FAQ</a>
+containing useful information for this
+assignment.
+</p>
+
+<p> Lecture 7 is the primary source for information on System V
+IPC.
+You can find additional information in the manpages, online, as well as
+the following sources: </p>
+
+<ul>
+
+  <li>Matthew and Stone, <em>Beginning Linux Programming</em>,
+Chapter
+13</li>
+
+  <li> Molay, <em>Understanding Unix/Linux Programming</em>,
+pp.
+499-502 (Shared Memory) and 506-514 (Semaphores with Shared Memory)</li>
+
+  <li>Stevens, <em>Advanced Programming in the Unix
+Environment</em>,
+section 14.7 (Message Queues), section 14.8 (Semaphores), and section
+14.9 (Shared Memory)</li>
+
+</ul>
+
+<p> All work should be done on a machine in the department's <a href="http://stuff.cs.uchicago.edu/searchresults/alive_hrs/1/os_name/Linux/net_group_list/cs_users_cppcs">
+Linux</a> cluster. You can refer to <a href="../LabFAQ/introlab/login.html">ssh</a> for
+more
+information on
+how to log into a remote machine. </p>
+
+<h3>Getting Started</h3>
+
+<p>In this assignment you will choose <strong>one</strong>
+of three
+options:
+</p>
+
+<ul>
+
+  <li> Exercise 1 (25 points) : &nbsp;&nbsp; Message
+Queues </li>
+
+  <li> Exercise 2 (25 points) : &nbsp;&nbsp; Shared Memory</li>
+
+  <li> Exercise 2 and 3 (25 points + Extra Credit Points) :
+&nbsp;&nbsp; Shared Memory with Semaphores</li>
+
+</ul>
+
+<h3>Deliverables</h3>
+
+<p> Each assignment has specific directions on how to submit.
+Follow
+the procedure <em>carefully</em>, correct delivery of your
+work is
+worth 5 points. Follow the 4 steps below. </p>
+
+<ol>
+
+  <li>Create a directory:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>username</em><font face="Courier New, Courier, mono">.lab7</font><br>
+
+  </li>
+
+  <li>You will have one directory to store your assignment
+(except for
+the last option):</li>
+
+  <ul>
+
+    <li><code>ex1</code>: &nbsp;&nbsp; If you
+are submitting exercise 1</li>
+
+    <li><code>ex2</code>: &nbsp;&nbsp; If you
+are submitting exercise
+2, only</li>
+
+    <li>If you are doing the bonus problem, exercise 3, you will
+need a
+directory for <code>ex2</code> and an additional directory<code>
+bonus</code>.</li>
+
+  </ul>
+
+Each exercise will provide more details on the files you will need to
+provide in this directory.<br>
+
+  <li>When you are finished with your assignment you will create
+a
+compressed archive file using <font face="Courier New, Courier, mono">tar</font>
+(this utility stores your directory as a single file, then compresses
+its size.)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face="Courier New, Courier, mono">tar -czvf </font>&nbsp;
+    <em>username</em><font face="Courier New, Courier, mono">.lab7.tgz</font>
+&nbsp;&nbsp;<em>username</em><font face="Courier New, Courier, mono">.lab7</font> <br>
+
+  </li>
+
+  <li>You will email your file to our grader as an
+attachment. I will send an aknowledgement that your assignment has been
+received.<br>
+
+    <br>
+
+  </li>
+
+  <table border="1" width="75%">
+
+    <tbody>
+
+      <tr>
+
+        <td>To</td>
+
+        <td>soner@cs.uchicago.edu</td>
+
+      </tr>
+
+      <tr>
+
+        <td>Attachment</td>
+
+        <td> &nbsp;<em>username</em><font face="Courier New, Courier, mono">.lab7.tgz</font></td>
+
+      </tr>
+
+      <tr>
+
+        <td>Subject</td>
+
+        <td>&nbsp;CSPP51081</td>
+
+      </tr>
+
+    </tbody>
+  </table>
+
+</ol>
+
+<!-- End of Deliverables, and Preamble to Lab 7 --><!-- Main body of Lab7 -->
+<h2>LAB 7</h2>
+
+<ol>
+
+<!-- Numbered list of exercises --> <li><!-- 1. Message Queues -->
+    <h3> Client-Server Communication using Message Queues</h3>
+
+    <br>
+
+    <h4>Problem Statement:</h4>
+
+    <p> Two processes, client and server, communicate via two
+message
+queues "Up" and "Down". </p>
+
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Server <br>
+
+    <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+^&nbsp;&nbsp;&nbsp;&nbsp;
+| <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Up
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v Down <br>
+
+    <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Client<br>
+
+    </p>
+
+    <p>The client reads a message from the standard input and
+sends it to
+the server via the Up queue, then waits for the server's answer on the
+Down queue. The server is specialized in converting characters from
+lower case to upper case and vice versa. Therefore, if the client sends
+the message "lower
+case" via the Up message queue, the server will read the message,
+convert
+it, and send "LOWER CASE" via the Down queue. When the client receives
+the
+message from the server, it prints it out.&nbsp; You may assume the
+maximum
+size of any message is 256 bytes. </p>
+
+    <p>Multiple clients must be able to connect to the up and
+down queues.
+&nbsp;However,
+what happens if one client puts a letter to convert on the system and
+another
+client is waiting for it's response from the queue? &nbsp;There are
+different
+ways to handle this, but you should handle this using typed messages.
+&nbsp;Each
+client has a particular client number based on the last 4 digits of its
+process
+ID. &nbsp;Use this 4-digit number as the client identifier, and use
+typed
+messages on the queue so that each client can always be sure to receive
+the
+letter that it is waiting on to be converted.<br>
+
+&nbsp; </p>
+
+    <h4>What to do:</h4>
+
+    <p>Implement the client and server from the scenario above. </p>
+
+    <ul>
+
+      <li> Make sure you understand the problem. Send questions
+to the
+list. An example of how you could run two processes is below: </li>
+
+      <blockquote> hangao@gawaine:LAB7% server &amp; <br>
+
+hangao@gawaine:LAB7% client <br>
+
+Insert message to send to server: message <br>
+
+Msg processed: MESSAGE <br>
+
+        <br>
+
+Insert message to send to server: UPPER CASE <br>
+
+Msg processed: upper case<br>
+
+      </blockquote>
+
+      <li> Write two C programs <code>client.c</code>
+and <code>server.c</code>
+that implement the behavior explained above. You may want to use this
+conversion function for the server code: </li>
+
+      <blockquote> /* convert upper case to lower case or vise
+versa */ <br>
+
+void conv(char *msg, int size) <br>
+
+{ <br>
+
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; for (i=0;
+i&lt;size; ++i) <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (islower(msg[i])) <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+msg[i]
+=&nbsp; toupper(msg[i]); <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else if (isupper(msg[i])) <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+msg[i]
+=&nbsp; tolower(msg[i]); <br>
+
+} <br>
+
+&nbsp;</p>
+
+      </blockquote>
+
+    </ul>
+
+    <h4>Deliverables</h4>
+
+    <p> This will complete step 2 of <strong>Deliverables</strong>:
+    </p>
+
+    <ol>
+
+      <li>Create a directory <code>ex1</code></li>
+
+      <li> This directory will contain three files:
+        <ul>
+
+          <li><code>client.c</code></li>
+
+          <li><code>server.c</code></li>
+
+          <li><code>Makefile</code>: which must will
+build your client
+and server. It must also contain a target <em>clean</em>.</li>
+
+        </ul>
+
+      </li>
+
+    </ol>
+
+    <h4>Grading</h4>
+
+    <p> This assignment is 25 points, including 5 points for
+correct
+submission. Your Server must be able to handle multiple clients
+correctly to recieve full credit. </p>
+
+  </li>
+
+<!-- 1. Message Queues --> <li><!-- 2. Shared Memeory -->
+    <h3> The Consumer-Producer Problem using Shared Memory </h3>
+
+    <br>
+
+    <h4>Problem Statement</h4>
+
+    <p>Write 2 programs, <code>producer.c</code>
+implementing a producer and <code>consumer.c</code>
+implementing
+a consumer, that do the following: </p>
+
+    <ul>
+
+      <li>Your product will sit on a shelf: this will be a shared
+memory segment that contains an integer, a count of the items "on the
+shelf". This integer may never drop below 0 or rise above 5.</li>
+
+      <li> Your producer creates the shared memory segment and
+sets the
+value of the count to 5. It is the producer program's responsibility to
+stock product on the shelf, but not overstocked. The producer may add
+one item to the shelf at a time, and must report to STDOUT every time
+another item is added as well as the current shelf count. </li>
+
+      <li> Your consumer will remove one item from the shelf at a
+time,
+provided the item count has not dropped below zero. The consumer will
+decrement the counter and report the new value to STDOUT. Have your
+consumer report each trip to the shelf, in which there are no items.
+For example, "Blasted!! I knew I should have gone to T---t." </li>
+
+      <li>Your program must work with multiple consumers: The
+item
+count should not fall below 0 or rise above 5 when there are several
+consumers and one producer. It is okay (and in fact expected) that your
+producer will have a hard time keeping-up with the demand of your
+consumers. Your program is <strong>not</strong> expected
+to keep-up
+with consumer demand.</li>
+
+    </ul>
+
+    <h4>What to do</h4>
+
+    <p>Look on these examples of shared memory usage: <a href="shm_server.c">shm_server.c</a>
+creates a shared memory segment and writes "hello world" into it. <a href="shm_client.c">shm_client.c</a> reads and prints
+out the content
+of
+the shared memory segment. The way to compile and run the examples is: <br>
+
+    </p>
+
+    <blockquote>hangao@gawaine:LAB7% gcc -o shm_server
+shm_server.c <br>
+
+hangao@gawaine:LAB7% gcc -o shm_client shm_client.c <br>
+
+      <br>
+
+hangao@gawaine:LAB7% shm_server 1234 &amp; <br>
+
+[1] 27633 <br>
+
+Try to create this segment <br>
+
+shared memory content: hello world <br>
+
+      <br>
+
+hangao@gawaine:LAB7% shm_client 1234 <br>
+
+Trying shared memory 1234 <br>
+
+shared memory: 1152 <br>
+
+shared memory: 0x40016000 <br>
+
+shared memory content: hello world <br>
+
+&nbsp; </blockquote>
+
+    <h4>Deliverables</h4>
+
+    <p> This will complete step 2 of <strong>Deliverables</strong>:
+    </p>
+
+    <ol>
+
+      <li>Create a directory <code>ex2</code></li>
+
+      <li> This directory will contain three files:
+        <ul>
+
+          <li><code>producer.c</code></li>
+
+          <li><code>consumer.c</code></li>
+
+          <li><code>Makefile</code>: which must will
+build your client
+and server. It must also contain a target <em>clean</em>.</li>
+
+        </ul>
+
+      </li>
+
+    </ol>
+
+    <h4>Grading</h4>
+
+    <p>This assignment is 25 points, including 5 points for
+correct
+submission. Your Producer will be run with multiple consumers. Your
+product count must not drop below 0 or rise above 5. Your program is
+not responsible for keeping the consumers happy: as more consumers are
+added, there will be more trips down an empty aisle. </p>
+
+  </li>
+
+<!-- 2. Shared Memory --> <li><!-- 3. Semaphores -->
+    <h3> Synchronization of Consumers and Producers using
+Semaphores</h3>
+
+    <br>
+
+    <h4>Problem Statement</h4>
+
+    <p>You should read Exercise 2 carefully first. I recommend
+you implement
+exercise 2 before beginning
+the Bonus Problem. </p>
+
+    <p>We will make three modifications to Exercise 2: </p>
+
+    <ul>
+
+      <li> Consumers are now <em>greedy</em>, they
+will grab items off
+the
+shelf even if there are no items on the shelf (they grab a competitive
+brand.) Now, you shelf count
+can go drop below zero, but it may not rise above five. As more
+consumers are added, your poor producer cannot keep-up, so you will use
+semaphores to control your consumers.</li>
+
+      <li> To help your poor swamped single producer, allow for
+multiple producers. You may want to increase your product count, and
+experiment with serveral producers and consumers. </li>
+
+      <li> Producers are <em>overly diligent</em>
+and will try to
+overstock. They will always try to place an item on the shelf. Use
+semaphores to control your producer's behavior. Try to maintain your
+stock count regardless of how many producers and consumers: you may
+need to adjust the stock count to make it interesting.</li>
+
+      <li> THIS IS NOT PART OF THE ASSIGNMENT: Try having
+multiple
+consumers and producers, where each sleeps for a random period, and
+tries the aisle. How do your semaphores hold up?</li>
+
+    </ul>
+
+    <p></p>
+
+    <h4>What to do</h4>
+
+    <p>Start by making sure you have a program which works for
+exercise 2.
+Now, up the ante, slowly and see
+if you can maintain sanity. Try each addition above to your program and
+see how it behaves. If your
+program has difficulty try to fix the problem, if you cannot analyze
+where you think the problem lies.
+Credit for this problem will not be solely based on successful
+performance, but on careful observation
+of your program's performance and analysis of difficulties you may be
+having controling behavior
+with semaphores. Keep a log of what you have and tried, and how your
+program has performed. This will be
+submitted as a README file. </p>
+
+    <h4>Deliverables</h4>
+
+    <p> This will complete step 2 of <strong>Deliverables</strong>:
+    </p>
+
+    <ol>
+
+      <li>A directory <code>ex2</code> with your
+files from exercise 2</li>
+
+      <li>Create a directory <code>bonus</code></li>
+
+      <li> This directory will contain four files:
+        <ul>
+
+          <li><code>producer.c</code></li>
+
+          <li><code>consumer.c</code></li>
+
+          <li><code>Makefile</code>: which must will
+build your client
+and server. It must also contain a target <em>clean</em>.</li>
+
+          <li><code>README</code>: This should state
+how you have
+implemented your semaphare, whether your consumers can be <em>greedy</em>,
+your producers <em>overly diligent</em>, and how your
+program has
+fared under varying conditions. Careful notes will help your score
+here. </li>
+
+        </ul>
+
+      </li>
+
+    </ol>
+
+    <h4>Grading</h4>
+
+    <p>The bonus is worth 10 points total. Partial credit will be
+given. The
+purpose of this bonus is for you to kick back and see how System V IPC
+fairs under the strenuous conditions imposed by the Producer/Consumer
+Problem. Incremental points will be given, and success judged as much
+by your observations as by your program's performance. Your README file
+will be important
+here. </p>
+
+  </li>
+
+<!-- 3. Semaphores -->
+</ol>
+
+<p>
+</p>
+
+<hr width="100%">
+<address> <a href="mailto:soner@cs.uchicago.edu">Atilla
+Soner Balkir</a></address>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+</body>
+</html>

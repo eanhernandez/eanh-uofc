@@ -1,0 +1,266 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+  <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+
+  <meta content="Mozilla/4.73 [en] (X11; U; Linux 2.2.14 i586) [Netscape]" name="GENERATOR">
+  <title>Unix Systems Programming: Lab 2</title>
+
+
+</head>
+
+
+<body>
+
+<h1>Unix Systems Programming: Lab 2</h1>
+
+Lab time:&nbsp;&nbsp; No assigned lab time due to lab space
+construction.
+&nbsp;Work at your own pace, but work.<br>
+
+Due:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#990000"><b> Wednesday, October 13, 2010 @ 5:00
+pm</b></font>
+<hr width="100%"><br>
+
+<b>PURPOSE AND RATIONALE</b><br>
+
+<br>
+
+The purpose of this lab is to allow students to become comfortable with
+basic Awk programming, and building static and shared libraries.<br>
+
+<br>
+
+<b>PRIMARY RESOURCES:</b><br>
+
+<br>
+
+<a href="../LabFAQ/FAQ.html#lab2">FAQ
+</a> (submission instructions and other useful resources) <br>
+
+You should refer to the online Awk text under required texts.<br>
+
+If possible, you should ssh into the cluster to perform all lab
+activities.
+<h4>README</h4>
+
+<ol>
+
+  <li>If you are not in our course email list, please subscribe
+to the
+cspp51081 email list here:<a href="http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081">
+&nbsp;http://mailman.cs.uchicago.edu/mailman/listinfo/cspp51081</a></li>
+
+  <li>Please start this lab as earlier as possible</li>
+
+  <li>Before starting, please review lecture 2 notes and read <i>Effective
+awk Programming</i>, 3rd ed., by Arnold Robbins, available <a href="http://www.gnu.org/software/gawk/manual/gawk.html">online</a></li>
+
+  <li>Turn the lab assignment in by email to the grader by the
+due date
+above.</li>
+
+  <li>Make sure you have read the Homework Style Guidelines for
+submission.<br>
+
+  </li>
+
+</ol>
+
+<h4>LAB 2</h4>
+
+<ol>
+
+  <li>Consider the file <a href="lab2/normal.precip.txt">
+normal.precip.txt</a>. It contains the average amount of rainfall
+over
+a
+30 year period for about 275 cities in North America. The first line of
+the file is a header, which tells you what each column contains.
+Basically,
+each line contains a city name, the state the city is in, and then
+average
+rainfall amounts from January through December, and then an annual
+average
+for all months. The file is TAB delimited. QUESTION: What is the total
+average amount of rainfall, in inches, for the month of January, for
+the
+following states: California (CA), Texas (TX), Alaska (AK). I want
+individual
+totalized averages for each of the above states for the month of
+January. As a check on your algorithm, note that the totalized average
+rainfall for
+California (CA) for the month of February over the same period was
+2.65067. This was derived by adding the rainfall values together for
+all cities in
+California for the month of February, and simply taking their average.
+    <p></p>
+
+    <p>Please use Awk programming to implement above procedure.
+There
+are several steps for this lab:</p>
+
+    <ol>
+
+      <li>Figure out the regular expression that will match all
+the
+valid chunks of the form described above. Mark has provided a very
+useful program to help with this process called <a href="lab2/showmatch">showmatch</a>
+that can be used in the following manner:
+        <pre>hangao@gawaine:CSPP51081% echo "FOO8AB10BAR" | /home/mark/pub/51081/showmatch '[0-9]AB[0-9]'<br>FOO8AB10BAR<br> ^^^^<br>hangao@gawaine:CSPP51081%<br></pre>
+
+The matched portion of the string is returned with carrot characters
+underneath. This will help you understand how "gawk" works. </li>
+
+      <li>If a question is about California, notice that a mere
+grep of
+/CA/ will include:
+        <pre>WINNEMUCCA, NV<br>POCATELLO, ID<br></pre>
+
+Probably NOT what you wanted. The shell script "showmatch" maybe help
+you debug in this regard.</li>
+
+      <li>Use "gawk" to integrate the patterns and actions we
+described
+above.</li>
+
+    </ol>
+
+  </li>
+
+</ol>
+
+<h4>&nbsp;&nbsp;&nbsp; <span style="font-weight: normal;">2. &nbsp;</span><b>
+Build Static and Shared Libraries using a
+Makefile <br>
+
+</b> <br>
+
+</h4>
+
+<ul>
+
+  <li>Read "make and Makefile" session in Chaper 10 of BLP
+textbook
+if you're using that text. &nbsp;Certainly refer to the online GNU
+documentation
+for <a href="http://www.gnu.org/software/make/manual/">GNU
+make</a>
+.</li>
+
+  <li>Write 3 very simple c source files: <tt>hello.c,
+here.c, bye.c, mylib.h</tt>
+. In <tt>hello.c</tt>, a function should print out
+"Hello!"; in <tt>here.c</tt>
+, another function should print out "I am here!"; and yet another
+function
+should print out "Bye bye!" in <tt>bye.c</tt>. So,
+actually, in each code
+file, there is only one C printf statement. mylib.h should include
+prototypes for the 3 functions you will be writing.</li>
+
+  <li>Write a <tt>main.c</tt> to call above 3
+functions so that the result should display like following
+    <ol>
+
+      <ol>
+
+        <tt>"Hello!"</tt><br>
+
+        <tt>"I am here!"</tt><br>
+
+        <tt>"Bye bye!"</tt>
+      </ol>
+
+    </ol>
+
+Please note there is no C printf statement in <tt>main.c</tt>;</li>
+
+  <li>Read and understand this <a href="CODE/BeginningLinuxProgramming/chapter08/mkfile6">
+makefile</a> first and write your own Makefile called <tt>Makefile1</tt>
+to compile them and build a static lib called <b>mylib.a</b>,
+comprised
+of hello.c, here.c, and bye.c (but NOT main.c).</li>
+
+  <li>Review "shared libraries naming structure" and
+"building a shared library" in lecture 3.</li>
+
+  <li>Read and understand this <a href="lab2/makefile">makefile</a>
+first and write your own makefile called <tt>Makefile2</tt>
+to compile them and build a shared lib with the soname of
+libmylib.so.5. &nbsp;Make the minor
+version .1 and the release .10. &nbsp;This will mean your actual
+shared library
+file will be named "libmylib.so.5.1.10" with .so links set accordingly.</li>
+
+  <li>Note that the two makefiles actually build separate
+libraries based
+on the same source code files, one static, the other shared.<br>
+
+  </li>
+
+</ul>
+
+<b>DELIVERABLES: </b> see <a href="../LabFAQ/lab2/submit_lab2.html">the
+submission faq</a>
+
+<br>
+
+<h4>MARKS DISTRIBUTION<br>
+
+</h4>
+
+<ol>
+
+  <li>Excercise 1:<br>
+
+  <ul>
+    <li>7&nbsp;points: gawk script</li>
+    <li>3&nbsp;points: correct answer as generated by the gawk script</li>
+    <li>1&nbsp;points: correct answer in the submitted file</li>
+  </ul>
+
+  </li>
+
+  <li>Excercise 2:</li>
+
+  <ul>
+    <li>11 points: correct libraries</li>
+  </ul>
+
+  <li>Correct Submission:</li>
+
+  <br>
+
+  <ul>
+
+    <li>3 points: Lab submitted as given in the <a href="../LabFAQ/lab2/submit_lab2.html">
+instructions</a> with names on top of files and proper format.</li>
+
+  </ul>
+
+  <br>
+
+Total Marks: 25
+</ol>
+
+<br>
+
+<h4>HINTS</h4>
+
+<p>Take it slowly and complete each portion of the homework
+before
+working on the next as each step depends upon the correct solution to
+the last. If you think you have the right answer for a step but the
+test is still failing, mail the list. If you are having any questions
+at all, mail the list. </p>
+
+<p></p>
+
+<hr width="100%">
+<address><a href="mailto:bsm@cs.uchicago.edu">Brian Martin </a></address> 
+<br>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+NEW FIRST LINE
+this is the text of the test file line 1
+this is the text of the test file line 2
+ANOTHER NEW LINE
+this is the text of the test file line 3
+this is the text of the test file line 4
+this is the text of the test file line 5
+
